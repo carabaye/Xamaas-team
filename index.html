@@ -3,18 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Golaha Laba Go'le</title>
+  <title>Xamaas Team</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: white;
+    }
+
+    header {
+      background: #0d1b2e;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #d4af37;
+    }
+
+    header h1 {
+      color: #d4af37;
+      font-size: 30px;
+    }
+
+    header p {
+      margin-top: 6px;
+      color: #b8c2cc;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .welcome {
+      background: #10243b;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+
+    .welcome h2 {
+      margin-bottom: 8px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      background: #10243b;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      border: 1px solid #1d3855;
+    }
+
+    .card .icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      color: #d4af37;
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      color: #b8c2cc;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      background: #d4af37;
+      color: #07111f;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #7f8b99;
+    }
+
+    @media (max-width: 600px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>GOLAHA LABA GO'LE</h1>
+  <header>
+    <h1>⚽ XAMAAS TEAM</h1>
+    <p>Football Management System</p>
+  </header>
 
-  <h2>Football Management System</h2>
+  <main class="container">
 
-  <p>Ku soo dhawoow nidaamka maamulka kooxda.</p>
+    <section class="welcome">
+      <h2>Ku soo dhawoow Xamaas Team</h2>
+      <p>Maamulka kooxda, ciyaartoyda iyo xogta ciyaaraha.</p>
+      <button>Login</button>
+    </section>
 
-  <button>Login</button>
+    <section class="cards">
+
+      <div class="card">
+        <div class="icon">👥</div>
+        <h3>Players</h3>
+        <p>Maamul ciyaartoyda kooxda</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">⚽</div>
+        <h3>Matches</h3>
+        <p>Ciyaaraha iyo natiijooyinka</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🟢</div>
+        <h3>Attendance</h3>
+        <p>Xaadiriska ciyaartoyda</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">💰</div>
+        <h3>Payments</h3>
+        <p>Lacagaha iyo bixinta</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🥅</div>
+        <h3>Goals & Assists</h3>
+        <p>Goals iyo assists</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🏆</div>
+        <h3>Leaderboard</h3>
+        <p>Qiimeynta ciyaartoyda</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 Xamaas Team
+  </footer>
 
 </body>
 </html>
