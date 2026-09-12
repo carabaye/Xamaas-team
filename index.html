@@ -131,9 +131,7 @@ input:focus{
 
 <script>
 
-function login(){
-
-    const username =
+const username =
         document.getElementById("username").value;
 
     const password =
@@ -144,6 +142,11 @@ function login(){
         "Fadlan geli Username iyo Password.";
         return;
     }
+
+    document.getElementById("message").innerText =
+    "Login system-ka database ayaan ku xiri doonaa tallaabada xigta.";
+
+}
 
     document.getElementById("message").innerText =
     "Login system-ka database ayaan ku xiri doonaa tallaabada xigta.";
