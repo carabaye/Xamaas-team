@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Xamaas Team - Sign Up</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#07111f;
+    color:white;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.signup-box{
+    width:100%;
+    max-width:430px;
+    background:#10243b;
+    border:1px solid #304761;
+    border-radius:25px;
+    padding:30px 25px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.logo{
+    width:85px;
+    height:85px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:#d4af37;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+}
+
+h1{
+    color:#d4af37;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:#9eacbc;
+    margin-bottom:28px;
+}
+
+input{
+    width:100%;
+    padding:16px;
+    margin-bottom:14px;
+    border-radius:13px;
+    border:1px solid #405873;
+    background:#07111f;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#d4af37;
+}
+
+.signup-button{
+    width:100%;
+    padding:16px;
+    border:0;
+    border-radius:13px;
+    background:#d4af37;
+    color:#07111f;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back{
+    display:block;
+    margin-top:20px;
+    color:#d4af37;
+    text-decoration:none;
+    font-size:15px;
+}
+
+.message{
+    margin-top:18px;
+    color:#ff8585;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="signup-box">
+
+    <div class="logo">⚽</div>
+
+    <h1>XAMAAS TEAM</h1>
+
+    <p class="subtitle">
+        Create Your Account
+    </p>
+
+    <input
+        type="text"
+        id="fullname"
+        placeholder="Full Name"
+    >
+
+    <input
+        type="text"
+        id="username"
+        placeholder="Username or Email"
+    >
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Password"
+    >
+
+    <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+    >
+
+    <button class="signup-button" onclick="signup()">
+        📝 CREATE ACCOUNT
+    </button>
+
+    <div class="message" id="message"></div>
+
+    <a class="back" href="index.html">
+        ← Back to Login
+    </a>
+
+</div>
+
+<script>
+
+function signup(){
+
+    const fullname =
+        document.getElementById("fullname").value;
+
+    const username =
+        document.getElementById("username").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+    if(
+        fullname === "" ||
+        username === "" ||
+        password === "" ||
+        confirmPassword === ""
+    ){
+        document.getElementById("message").innerText =
+        "Fadlan buuxi dhammaan meelaha.";
+        return;
+    }
+
+    if(password !== confirmPassword){
+        document.getElementById("message").innerText =
+        "Passwords-ku isku mid ma aha.";
+        return;
+    }
+
+    document.getElementById("message").innerText =
+    "Account-ka waa la diyaarinayaa.";
+
+}
+
+</script>
+
+</body>
+</html>
