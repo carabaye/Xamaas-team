@@ -6,6 +6,8 @@
 
 <title>Xamaas Team - Sign Up</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
     box-sizing:border-box;
@@ -85,6 +87,10 @@ input:focus{
     cursor:pointer;
 }
 
+.signup-button:hover{
+    background:#e7c653;
+}
+
 .back{
     display:block;
     margin-top:20px;
@@ -109,9 +115,7 @@ input:focus{
 
     <h1>XAMAAS TEAM</h1>
 
-    <p class="subtitle">
-        Create Your Account
-    </p>
+    <p class="subtitle">Create Your Account</p>
 
     <input
         type="text"
@@ -120,9 +124,9 @@ input:focus{
     >
 
     <input
-        type="text"
-        id="username"
-        placeholder="Username or Email"
+        type="email"
+        id="email"
+        placeholder="Email"
     >
 
     <input
@@ -137,7 +141,10 @@ input:focus{
         placeholder="Confirm Password"
     >
 
-    <button class="signup-button" onclick="signup()">
+    <button
+        class="signup-button"
+        onclick="signup()"
+    >
         📝 CREATE ACCOUNT
     </button>
 
@@ -151,13 +158,27 @@ input:focus{
 
 <script>
 
-function signup(){
+/* SUPABASE CONNECTION */
+
+const supabaseUrl = "GELI_API_URL_KAAGA";
+const supabaseKey = "GELI_PUBLISHABLE_KEY_KAAGA";
+
+const supabaseClient =
+    window.supabase.createClient(
+        supabaseUrl,
+        supabaseKey
+    );
+
+
+/* SIGN UP */
+
+async function signup(){
 
     const fullname =
-        document.getElementById("fullname").value;
+        document.getElementById("fullname").value.trim();
 
-    const username =
-        document.getElementById("username").value;
+    const email =
+        document.getElementById("email").value.trim();
 
     const password =
         document.getElementById("password").value;
@@ -165,25 +186,87 @@ function signup(){
     const confirmPassword =
         document.getElementById("confirmPassword").value;
 
+    const message =
+        document.getElementById("message");
+
+
+    /* CHECK EMPTY */
+
     if(
         fullname === "" ||
-        username === "" ||
+        email === "" ||
         password === "" ||
         confirmPassword === ""
     ){
-        document.getElementById("message").innerText =
+        message.innerText =
         "Fadlan buuxi dhammaan meelaha.";
         return;
     }
 
+
+    /* CHECK PASSWORD */
+
     if(password !== confirmPassword){
-        document.getElementById("message").innerText =
+
+        message.innerText =
         "Passwords-ku isku mid ma aha.";
+
         return;
     }
 
-    document.getElementById("message").innerText =
-    "Account-ka waa la diyaarinayaa.";
+
+    /* CREATE ACCOUNT */
+
+    message.style.color = "#d4af37";
+    message.innerText =
+    "Account-ka waa la abuurayaa...";
+
+
+    const { data, error } =
+        await supabaseClient.auth.signUp({
+
+            email: email,
+
+            password: password,
+
+            options: {
+
+                data: {
+                    full_name: fullname
+                }
+
+            }
+
+        });
+
+
+    /* ERROR */
+
+    if(error){
+
+        message.style.color = "#ff8585";
+
+        message.innerText =
+        error.message;
+
+        return;
+    }
+
+
+    /* SUCCESS */
+
+    message.style.color = "#62d98b";
+
+    message.innerText =
+    "Account-ka waa la sameeyay!";
+
+
+    setTimeout(function(){
+
+        window.location.href =
+        "index.html";
+
+    }, 2000);
 
 }
 
