@@ -269,8 +269,69 @@ async function signup(){
     }, 2000);
 
 }
+<script>
+const supabaseUrl = "GELI_API_URL_KAAGA";
+const supabaseKey = "GELI_PUBLISHABLE_KEY_KAAGA";
 
+let supabaseClient = null;
+
+function signup() {
+
+    const fullname = document.getElementById("fullname").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const message = document.getElementById("message");
+
+    if (fullname === "" || email === "" || password === "" || confirmPassword === "") {
+        message.innerText = "Fadlan buuxi dhammaan meelaha.";
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        message.innerText = "Passwords-ku isku mid ma aha.";
+        return;
+    }
+
+    if (!window.supabase) {
+        message.innerText = "Supabase ma soo degin. Internet-ka hubi.";
+        return;
+    }
+
+    supabaseClient = window.supabase.createClient(
+        supabaseUrl,
+        supabaseKey
+    );
+
+    message.style.color = "#d4af37";
+    message.innerText = "Account-ka waa la abuurayaa...";
+
+    createAccount();
+}
+
+async function createAccount() {
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const message = document.getElementById("message");
+
+    const { error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        message.style.color = "#ff8585";
+        message.innerText = error.message;
+        return;
+    }
+
+    message.style.color = "#62d98b";
+    message.innerText = "Account-ka waa la sameeyay!";
+
+    setTimeout(function() {
+        window.location.href = "index.html";
+    }, 2000);
+}
 </script>
 
-</body>
-</html>
