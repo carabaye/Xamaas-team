@@ -34,7 +34,6 @@ body{
     border-radius:25px;
     padding:30px 25px;
     text-align:center;
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
 }
 
 .logo{
@@ -68,11 +67,6 @@ input{
     background:#07111f;
     color:white;
     font-size:16px;
-    outline:none;
-}
-
-input:focus{
-    border-color:#d4af37;
 }
 
 .signup-button{
@@ -84,11 +78,11 @@ input:focus{
     color:#07111f;
     font-size:17px;
     font-weight:bold;
-    cursor:pointer;
 }
 
-.signup-button:hover{
-    background:#e7c653;
+.message{
+    margin-top:18px;
+    font-size:14px;
 }
 
 .back{
@@ -96,13 +90,6 @@ input:focus{
     margin-top:20px;
     color:#d4af37;
     text-decoration:none;
-    font-size:15px;
-}
-
-.message{
-    margin-top:18px;
-    color:#ff8585;
-    font-size:14px;
 }
 </style>
 </head>
@@ -117,34 +104,15 @@ input:focus{
 
     <p class="subtitle">Create Your Account</p>
 
-    <input
-        type="text"
-        id="fullname"
-        placeholder="Full Name"
-    >
+    <input id="fullname" type="text" placeholder="Full Name">
 
-    <input
-        type="email"
-        id="email"
-        placeholder="Email"
-    >
+    <input id="email" type="email" placeholder="Email">
 
-    <input
-        type="password"
-        id="password"
-        placeholder="Password"
-    >
+    <input id="password" type="password" placeholder="Password">
 
-    <input
-        type="password"
-        id="confirmPassword"
-        placeholder="Confirm Password"
-    >
+    <input id="confirmPassword" type="password" placeholder="Confirm Password">
 
-    <button
-        class="signup-button"
-        onclick="signup()"
-    >
+    <button class="signup-button" id="createBtn">
         📝 CREATE ACCOUNT
     </button>
 
@@ -158,21 +126,24 @@ input:focus{
 
 <script>
 
-/* SUPABASE CONNECTION */
+/* 1. SUPABASE XOGTA */
 
-const supabaseUrl = https://iihtxtuilegjslmrkjnp.supabase.co/rest/v1/
-const supabaseKey = sb_publishable_lh68Dlz5pKO1lZx5WDS7jA_ODfNaw8W
+const SUPABASE_URL = "GELI_API_URL_KAAGA";
+const SUPABASE_KEY = "GELI_PUBLISHABLE_KEY_KAAGA";
+
+
+/* 2. SUPABASE */
 
 const supabaseClient =
     window.supabase.createClient(
-        supabaseUrl,
-        supabaseKey
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
 
 
-/* SIGN UP */
+/* 3. BUTTON */
 
-async function signup(){
+document.getElementById("createBtn").addEventListener("click", async function(){
 
     const fullname =
         document.getElementById("fullname").value.trim();
@@ -190,36 +161,22 @@ async function signup(){
         document.getElementById("message");
 
 
-    /* CHECK EMPTY */
-
-    if(
-        fullname === "" ||
-        email === "" ||
-        password === "" ||
-        confirmPassword === ""
-    ){
-        message.innerText =
-        "Fadlan buuxi dhammaan meelaha.";
+    if(fullname === "" || email === "" || password === "" || confirmPassword === ""){
+        message.style.color = "#ff8585";
+        message.innerText = "Fadlan buuxi dhammaan meelaha.";
         return;
     }
 
-
-    /* CHECK PASSWORD */
 
     if(password !== confirmPassword){
-
-        message.innerText =
-        "Passwords-ku isku mid ma aha.";
-
+        message.style.color = "#ff8585";
+        message.innerText = "Passwords-ku isku mid ma aha.";
         return;
     }
 
 
-    /* CREATE ACCOUNT */
-
     message.style.color = "#d4af37";
-    message.innerText =
-    "Account-ka waa la abuurayaa...";
+    message.innerText = "Account-ka waa la abuurayaa...";
 
 
     const { data, error } =
@@ -230,108 +187,34 @@ async function signup(){
             password: password,
 
             options: {
-
                 data: {
                     full_name: fullname
                 }
-
             }
 
         });
 
 
-    /* ERROR */
-
     if(error){
 
         message.style.color = "#ff8585";
-
-        message.innerText =
-        error.message;
-
-        return;
-    }
-
-
-    /* SUCCESS */
-
-    message.style.color = "#62d98b";
-
-    message.innerText =
-    "Account-ka waa la sameeyay!";
-
-
-    setTimeout(function(){
-
-        window.location.href =
-        "index.html";
-
-    }, 2000);
-
-}
-<script>
-const supabaseUrl = "GELI_API_URL_KAAGA";
-const supabaseKey = "GELI_PUBLISHABLE_KEY_KAAGA";
-
-let supabaseClient = null;
-
-function signup() {
-
-    const fullname = document.getElementById("fullname").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
-    const message = document.getElementById("message");
-
-    if (fullname === "" || email === "" || password === "" || confirmPassword === "") {
-        message.innerText = "Fadlan buuxi dhammaan meelaha.";
-        return;
-    }
-
-    if (password !== confirmPassword) {
-        message.innerText = "Passwords-ku isku mid ma aha.";
-        return;
-    }
-
-    if (!window.supabase) {
-        message.innerText = "Supabase ma soo degin. Internet-ka hubi.";
-        return;
-    }
-
-    supabaseClient = window.supabase.createClient(
-        supabaseUrl,
-        supabaseKey
-    );
-
-    message.style.color = "#d4af37";
-    message.innerText = "Account-ka waa la abuurayaa...";
-
-    createAccount();
-}
-
-async function createAccount() {
-
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const message = document.getElementById("message");
-
-    const { error } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-    });
-
-    if (error) {
-        message.style.color = "#ff8585";
         message.innerText = error.message;
+
         return;
     }
+
 
     message.style.color = "#62d98b";
     message.innerText = "Account-ka waa la sameeyay!";
 
-    setTimeout(function() {
+
+    setTimeout(function(){
         window.location.href = "index.html";
     }, 2000);
-}
+
+});
+
 </script>
 
+</body>
+</html>
