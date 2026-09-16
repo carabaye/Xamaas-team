@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Xamaas Team - Players</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#07111f;
+    color:white;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+.header{
+    background:#10243b;
+    border:1px solid #304761;
+    border-radius:20px;
+    padding:22px;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.header h1{
+    color:#d4af37;
+    margin-bottom:7px;
+}
+
+.header p{
+    color:#9eacbc;
+}
+
+.controls{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.controls input{
+    flex:1;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #405873;
+    background:#10243b;
+    color:white;
+    font-size:16px;
+}
+
+.add-btn{
+    padding:15px 20px;
+    border:0;
+    border-radius:12px;
+    background:#d4af37;
+    color:#07111f;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.players{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+.player{
+    background:#10243b;
+    border:1px solid #304761;
+    border-radius:18px;
+    padding:20px;
+}
+
+.player-top{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.number{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#d4af37;
+    color:#07111f;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.player h2{
+    font-size:20px;
+}
+
+.position{
+    color:#9eacbc;
+    margin-top:5px;
+}
+
+.rating{
+    color:#d4af37;
+    margin-top:12px;
+    font-weight:bold;
+}
+
+.status{
+    display:inline-block;
+    margin-top:10px;
+    padding:6px 10px;
+    border-radius:8px;
+    background:#174d35;
+    color:#6ee7a0;
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.actions button{
+    flex:1;
+    padding:10px;
+    border:0;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.edit{
+    background:#294a69;
+    color:white;
+}
+
+.delete{
+    background:#6b2525;
+    color:white;
+}
+
+.back{
+    display:block;
+    text-align:center;
+    margin-top:25px;
+    color:#d4af37;
+    text-decoration:none;
+}
+
+@media(max-width:600px){
+    .controls{
+        flex-direction:column;
+    }
+
+    .add-btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>⚽ XAMAAS TEAM</h1>
+        <p>Players Management</p>
+    </div>
+
+    <div class="controls">
+        <input
+            type="text"
+            id="search"
+            placeholder="🔍 Raadi ciyaaryahan..."
+            oninput="searchPlayers()"
+        >
+
+        <button class="add-btn" onclick="addPlayer()">
+            ➕ ADD PLAYER
+        </button>
+    </div>
+
+    <div class="players" id="playersList">
+
+        <div class="player">
+            <div class="player-top">
+                <div class="number">1</div>
+
+                <div>
+                    <h2>Caydaruus</h2>
+                    <div class="position">Goalkeeper</div>
+                </div>
+            </div>
+
+            <div class="rating">⭐ Rating: 80</div>
+            <span class="status">ACTIVE</span>
+
+            <div class="actions">
+                <button class="edit" onclick="editPlayer('Caydaruus')">
+                    ✏️ EDIT
+                </button>
+
+                <button class="delete" onclick="deletePlayer(this)">
+                    🗑️ DELETE
+                </button>
+            </div>
+        </div>
+
+
+        <div class="player">
+            <div class="player-top">
+                <div class="number">7</div>
+
+                <div>
+                    <h2>Naxwe</h2>
+                    <div class="position">Midfielder</div>
+                </div>
+            </div>
+
+            <div class="rating">⭐ Rating: 82</div>
+            <span class="status">ACTIVE</span>
+
+            <div class="actions">
+                <button class="edit" onclick="editPlayer('Naxwe')">
+                    ✏️ EDIT
+                </button>
+
+                <button class="delete" onclick="deletePlayer(this)">
+                    🗑️ DELETE
+                </button>
+            </div>
+        </div>
+
+
+        <div class="player">
+            <div class="player-top">
+                <div class="number">10</div>
+
+                <div>
+                    <h2>Kamaayo</h2>
+                    <div class="position">Forward</div>
+                </div>
+            </div>
+
+            <div class="rating">⭐ Rating: 85</div>
+            <span class="status">ACTIVE</span>
+
+            <div class="actions">
+                <button class="edit" onclick="editPlayer('Kamaayo')">
+                    ✏️ EDIT
+                </button>
+
+                <button class="delete" onclick="deletePlayer(this)">
+                    🗑️ DELETE
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← BACK TO DASHBOARD
+    </a>
+
+</div>
+
+
+<script>
+
+function addPlayer(){
+
+    const name = prompt("Geli magaca ciyaaryahanka:");
+
+    if(name === null || name.trim() === ""){
+        return;
+    }
+
+    const number = prompt("Geli lambarka funaanadda:");
+
+    if(number === null || number.trim() === ""){
+        return;
+    }
+
+    const position = prompt(
+        "Geli booska ciyaaryahanka (GK / DEF / MID / FW):"
+    );
+
+    if(position === null || position.trim() === ""){
+        return;
+    }
+
+    const playersList =
+        document.getElementById("playersList");
+
+    const player = document.createElement("div");
+
+    player.className = "player";
+
+    player.innerHTML = `
+        <div class="player-top">
+
+            <div class="number">
+                ${number}
+            </div>
+
+            <div>
+                <h2>${name}</h2>
+                <div class="position">
+                    ${position}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="rating">
+            ⭐ Rating: 0
+        </div>
+
+        <span class="status">
+            ACTIVE
+        </span>
+
+        <div class="actions">
+
+            <button
+                class="edit"
+                onclick="editPlayer('${name}')">
+                ✏️ EDIT
+            </button>
+
+            <button
+                class="delete"
+                onclick="deletePlayer(this)">
+                🗑️ DELETE
+            </button>
+
+        </div>
+    `;
+
+    playersList.appendChild(player);
+
+    alert("Ciyaaryahanka waa lagu daray.");
+
+}
+
+
+function deletePlayer(button){
+
+    if(confirm("Ma hubtaa inaad tirtirayso ciyaaryahankan?")){
+
+        button.closest(".player").remove();
+
+    }
+
+}
+
+
+function editPlayer(name){
+
+    alert(
+        "Edit-ka " + name +
+        " waxaan database-ka ku xiriirin doonaa tallaabada xigta."
+    );
+
+}
+
+
+function searchPlayers(){
+
+    const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const players =
+        document.querySelectorAll(".player");
+
+    players.forEach(function(player){
+
+        const text =
+            player.innerText.toLowerCase();
+
+        if(text.includes(search)){
+
+            player.style.display = "";
+
+        }else{
+
+            player.style.display = "none";
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
