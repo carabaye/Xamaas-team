@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Xamaas Team - Players</title>
+<title>XAMAAS TEAM - Players</title>
 
 <style>
 *{
@@ -18,21 +18,23 @@ body{
     background:#07111f;
     color:white;
     min-height:100vh;
-    padding:20px;
+    padding:18px;
 }
 
 .container{
-    max-width:900px;
+    max-width:1000px;
     margin:auto;
 }
+
+/* HEADER */
 
 .header{
     background:#10243b;
     border:1px solid #304761;
     border-radius:20px;
     padding:22px;
-    margin-bottom:20px;
     text-align:center;
+    margin-bottom:18px;
 }
 
 .header h1{
@@ -44,13 +46,15 @@ body{
     color:#9eacbc;
 }
 
-.controls{
+/* TOP BAR */
+
+.top-bar{
     display:flex;
     gap:10px;
-    margin-bottom:20px;
+    margin-bottom:18px;
 }
 
-.controls input{
+.search{
     flex:1;
     padding:15px;
     border-radius:12px;
@@ -58,6 +62,11 @@ body{
     background:#10243b;
     color:white;
     font-size:16px;
+    outline:none;
+}
+
+.search:focus{
+    border-color:#d4af37;
 }
 
 .add-btn{
@@ -70,41 +79,92 @@ body{
     cursor:pointer;
 }
 
+/* SUMMARY */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.summary-box{
+    background:#10243b;
+    border:1px solid #304761;
+    border-radius:15px;
+    padding:16px;
+    text-align:center;
+}
+
+.summary-number{
+    font-size:27px;
+    color:#d4af37;
+    font-weight:bold;
+}
+
+.summary-label{
+    color:#9eacbc;
+    margin-top:5px;
+    font-size:13px;
+}
+
+/* PLAYERS */
+
 .players{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
     gap:15px;
 }
 
-.player{
+.player-card{
     background:#10243b;
     border:1px solid #304761;
     border-radius:18px;
-    padding:20px;
+    padding:18px;
 }
 
 .player-top{
     display:flex;
     align-items:center;
-    gap:15px;
+    gap:14px;
     margin-bottom:15px;
 }
 
-.number{
-    width:55px;
-    height:55px;
+.player-photo{
+    width:65px;
+    height:65px;
     border-radius:50%;
     background:#d4af37;
     color:#07111f;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:22px;
+    font-size:30px;
     font-weight:bold;
+    overflow:hidden;
+    flex-shrink:0;
 }
 
-.player h2{
+.player-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.player-info{
+    min-width:0;
+}
+
+.player-name{
+    color:white;
+    text-decoration:none;
     font-size:20px;
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.player-name:hover{
+    color:#d4af37;
 }
 
 .position{
@@ -112,20 +172,29 @@ body{
     margin-top:5px;
 }
 
-.rating{
-    color:#d4af37;
+.status{
+    display:inline-block;
     margin-top:12px;
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:12px;
     font-weight:bold;
 }
 
-.status{
-    display:inline-block;
-    margin-top:10px;
-    padding:6px 10px;
-    border-radius:8px;
+.active{
     background:#174d35;
     color:#6ee7a0;
-    font-size:13px;
+}
+
+.inactive{
+    background:#54252a;
+    color:#ff8585;
+}
+
+.rating{
+    color:#d4af37;
+    font-weight:bold;
+    margin:12px 0;
 }
 
 .actions{
@@ -143,31 +212,149 @@ body{
     font-weight:bold;
 }
 
-.edit{
+.edit-btn{
     background:#294a69;
     color:white;
 }
 
-.delete{
+.delete-btn{
     background:#6b2525;
+    color:white;
+}
+
+.empty{
+    background:#10243b;
+    border:1px solid #304761;
+    border-radius:18px;
+    padding:35px 20px;
+    text-align:center;
+    color:#9eacbc;
+}
+
+.empty strong{
+    display:block;
+    color:#d4af37;
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    padding:20px;
+    overflow:auto;
+    z-index:100;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    margin:30px auto;
+    background:#10243b;
+    border:1px solid #304761;
+    border-radius:20px;
+    padding:25px;
+}
+
+.modal-box h2{
+    color:#d4af37;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    color:#9eacbc;
+    margin-bottom:7px;
+    font-size:14px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid #405873;
+    background:#07111f;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#d4af37;
+}
+
+.form-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.save-btn,
+.cancel-btn{
+    flex:1;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.save-btn{
+    background:#d4af37;
+    color:#07111f;
+}
+
+.cancel-btn{
+    background:#294a69;
     color:white;
 }
 
 .back{
     display:block;
     text-align:center;
-    margin-top:25px;
+    margin:25px 0 10px;
     color:#d4af37;
     text-decoration:none;
+    font-weight:bold;
 }
 
+/* MOBILE */
+
 @media(max-width:600px){
-    .controls{
+
+    body{
+        padding:12px;
+    }
+
+    .top-bar{
         flex-direction:column;
     }
 
     .add-btn{
         width:100%;
+    }
+
+    .summary{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .summary-box:last-child{
+        grid-column:1 / -1;
+    }
+
+    .players{
+        grid-template-columns:1fr;
     }
 }
 </style>
@@ -177,101 +364,61 @@ body{
 
 <div class="container">
 
+    <!-- HEADER -->
+
     <div class="header">
         <h1>⚽ XAMAAS TEAM</h1>
         <p>Players Management</p>
     </div>
 
-    <div class="controls">
+
+    <!-- SEARCH + ADD -->
+
+    <div class="top-bar">
+
         <input
+            class="search"
+            id="searchInput"
             type="text"
-            id="search"
             placeholder="🔍 Raadi ciyaaryahan..."
-            oninput="searchPlayers()"
+            oninput="renderPlayers()"
         >
 
-        <button class="add-btn" onclick="addPlayer()">
+        <button class="add-btn" onclick="openAddPlayer()">
             ➕ ADD PLAYER
         </button>
+
     </div>
 
-    <div class="players" id="playersList">
 
-        <div class="player">
-            <div class="player-top">
-                <div class="number">1</div>
+    <!-- SUMMARY -->
 
-                <div>
-                    <h2>Caydaruus</h2>
-                    <div class="position">Goalkeeper</div>
-                </div>
-            </div>
+    <div class="summary">
 
-            <div class="rating">⭐ Rating: 80</div>
-            <span class="status">ACTIVE</span>
-
-            <div class="actions">
-                <button class="edit" onclick="editPlayer('Caydaruus')">
-                    ✏️ EDIT
-                </button>
-
-                <button class="delete" onclick="deletePlayer(this)">
-                    🗑️ DELETE
-                </button>
-            </div>
+        <div class="summary-box">
+            <div class="summary-number" id="totalPlayers">0</div>
+            <div class="summary-label">TOTAL PLAYERS</div>
         </div>
 
-
-        <div class="player">
-            <div class="player-top">
-                <div class="number">7</div>
-
-                <div>
-                    <h2>Naxwe</h2>
-                    <div class="position">Midfielder</div>
-                </div>
-            </div>
-
-            <div class="rating">⭐ Rating: 82</div>
-            <span class="status">ACTIVE</span>
-
-            <div class="actions">
-                <button class="edit" onclick="editPlayer('Naxwe')">
-                    ✏️ EDIT
-                </button>
-
-                <button class="delete" onclick="deletePlayer(this)">
-                    🗑️ DELETE
-                </button>
-            </div>
+        <div class="summary-box">
+            <div class="summary-number" id="activePlayers">0</div>
+            <div class="summary-label">ACTIVE</div>
         </div>
 
-
-        <div class="player">
-            <div class="player-top">
-                <div class="number">10</div>
-
-                <div>
-                    <h2>Kamaayo</h2>
-                    <div class="position">Forward</div>
-                </div>
-            </div>
-
-            <div class="rating">⭐ Rating: 85</div>
-            <span class="status">ACTIVE</span>
-
-            <div class="actions">
-                <button class="edit" onclick="editPlayer('Kamaayo')">
-                    ✏️ EDIT
-                </button>
-
-                <button class="delete" onclick="deletePlayer(this)">
-                    🗑️ DELETE
-                </button>
-            </div>
+        <div class="summary-box">
+            <div class="summary-number" id="inactivePlayers">0</div>
+            <div class="summary-label">INACTIVE</div>
         </div>
 
     </div>
+
+
+    <!-- PLAYERS -->
+
+    <div class="players" id="playersList"></div>
+
+
+    <!-- BACK -->
 
     <a href="dashboard.html" class="back">
         ← BACK TO DASHBOARD
@@ -280,134 +427,637 @@ body{
 </div>
 
 
+<!-- ADD / EDIT MODAL -->
+
+<div class="modal" id="playerModal">
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle">
+            ADD PLAYER
+        </h2>
+
+        <form onsubmit="savePlayer(event)">
+
+            <div class="form-group">
+
+                <label>
+                    Player Name
+                </label>
+
+                <input
+                    type="text"
+                    id="playerName"
+                    placeholder="Geli magaca ciyaaryahanka"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Position
+                </label>
+
+                <select id="playerPosition" required>
+
+                    <option value="">
+                        Dooro booska
+                    </option>
+
+                    <option value="Goalkeeper">
+                        Goalkeeper
+                    </option>
+
+                    <option value="Defender">
+                        Defender
+                    </option>
+
+                    <option value="Midfielder">
+                        Midfielder
+                    </option>
+
+                    <option value="Forward">
+                        Forward
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Skill / Rating
+                </label>
+
+                <input
+                    type="number"
+                    id="playerRating"
+                    min="1"
+                    max="100"
+                    placeholder="1 - 100"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Status
+                </label>
+
+                <select id="playerStatus">
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Photo
+                </label>
+
+                <input
+                    type="file"
+                    id="playerPhoto"
+                    accept="image/*"
+                >
+
+            </div>
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="submit"
+                    class="save-btn">
+                    💾 SAVE
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeModal()">
+                    CANCEL
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
 <script>
 
-function addPlayer(){
+/* =========================
+   PLAYER DATA
+========================= */
 
-    const name = prompt("Geli magaca ciyaaryahanka:");
+let players = JSON.parse(
+    localStorage.getItem("xamaasPlayers") || "[]"
+);
 
-    if(name === null || name.trim() === ""){
-        return;
-    }
-
-    const number = prompt("Geli lambarka funaanadda:");
-
-    if(number === null || number.trim() === ""){
-        return;
-    }
-
-    const position = prompt(
-        "Geli booska ciyaaryahanka (GK / DEF / MID / FW):"
-    );
-
-    if(position === null || position.trim() === ""){
-        return;
-    }
-
-    const playersList =
-        document.getElementById("playersList");
-
-    const player = document.createElement("div");
-
-    player.className = "player";
-
-    player.innerHTML = `
-        <div class="player-top">
-
-            <div class="number">
-                ${number}
-            </div>
-
-            <div>
-                <h2>${name}</h2>
-                <div class="position">
-                    ${position}
-                </div>
-            </div>
-
-        </div>
-
-        <div class="rating">
-            ⭐ Rating: 0
-        </div>
-
-        <span class="status">
-            ACTIVE
-        </span>
-
-        <div class="actions">
-
-            <button
-                class="edit"
-                onclick="editPlayer('${name}')">
-                ✏️ EDIT
-            </button>
-
-            <button
-                class="delete"
-                onclick="deletePlayer(this)">
-                🗑️ DELETE
-            </button>
-
-        </div>
-    `;
-
-    playersList.appendChild(player);
-
-    alert("Ciyaaryahanka waa lagu daray.");
-
-}
+let editingId = null;
 
 
-function deletePlayer(button){
+/* =========================
+   SAVE DATA
+========================= */
 
-    if(confirm("Ma hubtaa inaad tirtirayso ciyaaryahankan?")){
+function saveData(){
 
-        button.closest(".player").remove();
-
-    }
-
-}
-
-
-function editPlayer(name){
-
-    alert(
-        "Edit-ka " + name +
-        " waxaan database-ka ku xiriirin doonaa tallaabada xigta."
+    localStorage.setItem(
+        "xamaasPlayers",
+        JSON.stringify(players)
     );
 
 }
 
 
-function searchPlayers(){
+/* =========================
+   OPEN ADD
+========================= */
 
-    const search =
-        document.getElementById("search")
-        .value
-        .toLowerCase();
+function openAddPlayer(){
 
-    const players =
-        document.querySelectorAll(".player");
+    editingId = null;
 
-    players.forEach(function(player){
+    document.getElementById("modalTitle").innerText =
+        "ADD PLAYER";
 
-        const text =
-            player.innerText.toLowerCase();
+    document.getElementById("playerName").value = "";
 
-        if(text.includes(search)){
+    document.getElementById("playerPosition").value = "";
 
-            player.style.display = "";
+    document.getElementById("playerRating").value = "";
 
-        }else{
+    document.getElementById("playerStatus").value =
+        "Active";
 
-            player.style.display = "none";
+    document.getElementById("playerPhoto").value = "";
+
+    document.getElementById("playerModal").style.display =
+        "block";
+}
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+function closeModal(){
+
+    document.getElementById("playerModal").style.display =
+        "none";
+
+}
+
+
+/* =========================
+   SAVE PLAYER
+========================= */
+
+function savePlayer(event){
+
+    event.preventDefault();
+
+    const name =
+        document.getElementById("playerName").value.trim();
+
+    const position =
+        document.getElementById("playerPosition").value;
+
+    const rating =
+        Number(document.getElementById("playerRating").value);
+
+    const status =
+        document.getElementById("playerStatus").value;
+
+    const photoInput =
+        document.getElementById("playerPhoto");
+
+    if(!name || !position || !rating){
+        alert("Fadlan xogta oo dhan geli.");
+        return;
+    }
+
+
+    /* EDIT */
+
+    if(editingId !== null){
+
+        const player =
+            players.find(p => p.id === editingId);
+
+        if(player){
+
+            player.name = name;
+            player.position = position;
+            player.rating = rating;
+            player.status = status;
 
         }
 
-    });
+        if(photoInput.files.length > 0){
+
+            const reader =
+                new FileReader();
+
+            reader.onload = function(){
+
+                player.photo =
+                    reader.result;
+
+                saveData();
+                renderPlayers();
+                closeModal();
+
+            };
+
+            reader.readAsDataURL(
+                photoInput.files[0]
+            );
+
+            return;
+        }
+
+    }
+
+
+    /* ADD */
+
+    else{
+
+        const newPlayer = {
+
+            id: Date.now(),
+
+            name:name,
+
+            position:position,
+
+            rating:rating,
+
+            status:status,
+
+            photo:""
+
+        };
+
+
+        if(photoInput.files.length > 0){
+
+            const reader =
+                new FileReader();
+
+            reader.onload = function(){
+
+                newPlayer.photo =
+                    reader.result;
+
+                players.push(newPlayer);
+
+                saveData();
+                renderPlayers();
+                closeModal();
+
+            };
+
+            reader.readAsDataURL(
+                photoInput.files[0]
+            );
+
+            return;
+
+        }
+
+        players.push(newPlayer);
+
+    }
+
+
+    saveData();
+
+    renderPlayers();
+
+    closeModal();
 
 }
+
+
+/* =========================
+   EDIT PLAYER
+========================= */
+
+function editPlayer(id){
+
+    const player =
+        players.find(p => p.id === id);
+
+    if(!player){
+        return;
+    }
+
+    editingId = id;
+
+    document.getElementById("modalTitle").innerText =
+        "EDIT PLAYER";
+
+    document.getElementById("playerName").value =
+        player.name;
+
+    document.getElementById("playerPosition").value =
+        player.position;
+
+    document.getElementById("playerRating").value =
+        player.rating;
+
+    document.getElementById("playerStatus").value =
+        player.status;
+
+    document.getElementById("playerPhoto").value =
+        "";
+
+    document.getElementById("playerModal").style.display =
+        "block";
+
+}
+
+
+/* =========================
+   DELETE PLAYER
+========================= */
+
+function deletePlayer(id){
+
+    const player =
+        players.find(p => p.id === id);
+
+    if(!player){
+        return;
+    }
+
+    const confirmDelete =
+        confirm(
+            "Ma hubtaa inaad tirtirayso " +
+            player.name +
+            "?"
+        );
+
+    if(!confirmDelete){
+        return;
+    }
+
+    players =
+        players.filter(p => p.id !== id);
+
+    saveData();
+
+    renderPlayers();
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+function openProfile(id){
+
+    window.location.href =
+        "player-profile.html?id=" + id;
+
+}
+
+
+/* =========================
+   RENDER PLAYERS
+========================= */
+
+function renderPlayers(){
+
+    const list =
+        document.getElementById("playersList");
+
+    const search =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const filtered =
+        players.filter(player =>
+            player.name.toLowerCase().includes(search) ||
+            player.position.toLowerCase().includes(search)
+        );
+
+
+    /* SUMMARY */
+
+    document.getElementById("totalPlayers").innerText =
+        players.length;
+
+    document.getElementById("activePlayers").innerText =
+        players.filter(
+            p => p.status === "Active"
+        ).length;
+
+    document.getElementById("inactivePlayers").innerText =
+        players.filter(
+            p => p.status === "Inactive"
+        ).length;
+
+
+    /* EMPTY */
+
+    if(filtered.length === 0){
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                <strong>
+                    ${players.length === 0
+                        ? "No Players Yet"
+                        : "No Player Found"}
+                </strong>
+
+                ${
+                    players.length === 0
+                    ? "Riix ADD PLAYER si aad ciyaaryahan ugu darto."
+                    : "Magaca ciyaaryahanka dib u raadi."
+                }
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* CARDS */
+
+    list.innerHTML =
+        filtered.map(player => {
+
+            const firstLetter =
+                player.name
+                .charAt(0)
+                .toUpperCase();
+
+
+            const photo =
+                player.photo
+
+                ? `<img src="${player.photo}" alt="Player">`
+
+                : firstLetter;
+
+
+            const statusClass =
+                player.status === "Active"
+                ? "active"
+                : "inactive";
+
+
+            return `
+
+                <div class="player-card">
+
+                    <div class="player-top">
+
+                        <div class="player-photo">
+                            ${photo}
+                        </div>
+
+
+                        <div class="player-info">
+
+                            <a
+                                href="player-profile.html?id=${player.id}"
+                                class="player-name">
+
+                                ${escapeHtml(player.name)}
+
+                            </a>
+
+                            <div class="position">
+
+                                ${escapeHtml(player.position)}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating">
+
+                        ⭐ Skill / Rating:
+                        ${player.rating}
+
+                    </div>
+
+
+                    <span class="status ${statusClass}">
+
+                        ${player.status.toUpperCase()}
+
+                    </span>
+
+
+                    <div class="actions">
+
+                        <button
+                            class="edit-btn"
+                            onclick="editPlayer(${player.id})">
+
+                            ✏️ EDIT
+
+                        </button>
+
+
+                        <button
+                            class="delete-btn"
+                            onclick="deletePlayer(${player.id})">
+
+                            🗑️ DELETE
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================
+   SECURITY / TEXT
+========================= */
+
+function escapeHtml(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+   CLOSE MODAL OUTSIDE
+========================= */
+
+window.onclick = function(event){
+
+    const modal =
+        document.getElementById("playerModal");
+
+    if(event.target === modal){
+
+        closeModal();
+
+    }
+
+};
+
+
+/* =========================
+   START
+========================= */
+
+renderPlayers();
 
 </script>
 
