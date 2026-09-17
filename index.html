@@ -4,102 +4,144 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Xamaas Team - Login</title>
+<title>XAMAAS TEAM - Login</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-body{
-    font-family:Arial,sans-serif;
-    background:#07111f;
-    color:white;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
+body {
+    font-family: Arial, sans-serif;
+    background: #07111f;
+    color: white;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
 }
 
-.login-box{
-    width:100%;
-    max-width:430px;
-    background:#10243b;
-    border:1px solid #304761;
-    border-radius:25px;
-    padding:30px 25px;
-    text-align:center;
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
+.login-box {
+    width: 100%;
+    max-width: 430px;
+
+    background: #10243b;
+
+    border: 1px solid #304761;
+    border-radius: 25px;
+
+    padding: 35px 25px;
+
+    text-align: center;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
 }
 
-.logo{
-    width:85px;
-    height:85px;
-    margin:0 auto 18px;
-    border-radius:50%;
-    background:#d4af37;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:40px;
+.logo {
+    width: 90px;
+    height: 90px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 50%;
+
+    background: #d4af37;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 45px;
 }
 
-h1{
-    color:#d4af37;
-    margin-bottom:8px;
+h1 {
+    color: #d4af37;
+    margin-bottom: 8px;
+    font-size: 30px;
 }
 
-.subtitle{
-    color:#9eacbc;
-    margin-bottom:28px;
+.subtitle {
+    color: #aab7c6;
+    margin-bottom: 30px;
 }
 
-input{
-    width:100%;
-    padding:16px;
-    margin-bottom:14px;
-    border-radius:13px;
-    border:1px solid #405873;
-    background:#07111f;
-    color:white;
-    font-size:16px;
-    outline:none;
+input {
+    width: 100%;
+
+    padding: 16px;
+
+    margin-bottom: 15px;
+
+    border-radius: 13px;
+
+    border: 1px solid #405873;
+
+    background: #07111f;
+
+    color: white;
+
+    font-size: 16px;
+
+    outline: none;
 }
 
-input:focus{
-    border-color:#d4af37;
+input:focus {
+    border-color: #d4af37;
 }
 
-.login-button{
-    width:100%;
-    padding:16px;
-    border:0;
-    border-radius:13px;
-    background:#d4af37;
-    color:#07111f;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
+.login-button {
+    width: 100%;
+
+    padding: 16px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #d4af37;
+
+    color: #07111f;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
 }
 
-.login-button:hover{
-    background:#e7c653;
+.login-button:hover {
+    background: #e7c653;
 }
 
-.message{.signup-link{
-    display:block;
-    margin-top:15px;
-    color:#d4af37;
-    text-decoration:none;
-    font-size:16px;
-    font-weight:bold;
+.signup-link {
+    display: block;
+
+    margin-top: 18px;
+
+    color: #d4af37;
+
+    text-decoration: none;
+
+    font-size: 16px;
+
+    font-weight: bold;
 }
-    margin-top:18px;
-    color:#ff8585;
-    font-size:14px;
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+.message {
+    margin-top: 18px;
+
+    color: #ff8585;
+
+    font-size: 14px;
 }
 </style>
 </head>
@@ -128,37 +170,51 @@ input:focus{
         placeholder="Password"
     >
 
-    <button class="login-button" onclick="login()">
+    <button
+        class="login-button"
+        onclick="login()"
+    >
         🔐 LOGIN
     </button>
-<a href="signup.html" class="signup-link">
-    📝 SIGN UP
-</a>
-    <div class="message" id="message"></div>
+
+    <a
+        href="signup.html"
+        class="signup-link"
+    >
+        📝 SIGN UP
+    </a>
+
+    <div
+        class="message"
+        id="message"
+    ></div>
 
 </div>
 
 <script>
 
-const username =
-        document.getElementById("username").value;
+function login() {
+
+    const username =
+        document.getElementById("username").value.trim();
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById("password").value.trim();
 
-    if(username === "" || password === ""){
-        document.getElementById("message").innerText =
-        "Fadlan geli Username iyo Password.";
+    const message =
+        document.getElementById("message");
+
+
+    if (username === "" || password === "") {
+
+        message.innerText =
+            "Fadlan geli Username iyo Password.";
+
         return;
     }
 
-    document.getElementById("message").innerText =
-    "Login system-ka database ayaan ku xiri doonaa tallaabada xigta.";
 
-}
-
-    document.getElementById("message").innerText =
-    "Login system-ka database ayaan ku xiri doonaa tallaabada xigta.";
+    window.location.href = "dashboard.html";
 
 }
 
