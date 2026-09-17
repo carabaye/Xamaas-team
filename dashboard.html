@@ -4,282 +4,518 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Xamaas Team Dashboard</title>
+<title>XAMAAS TEAM - Dashboard</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-  font-family:Arial,sans-serif;
-  background:#07111f;
-  color:white;
-  min-height:100vh;
-}
-
-.header{
-  height:70px;
-  background:#0d1b2e;
-  border-bottom:2px solid #d4af37;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
-}
-
-.logo{
-  color:#d4af37;
-  font-size:22px;
-  font-weight:bold;
-}
-
-.menu{
-  font-size:28px;
-  cursor:pointer;
+    font-family:Arial,sans-serif;
+    background:#020817;
+    color:white;
+    min-height:100vh;
 }
 
 .container{
-  max-width:700px;
-  margin:auto;
-  padding:22px;
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+    padding:18px;
 }
+
+/* HEADER */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 0 22px;
+
+    border-bottom:3px solid #d4af37;
+}
+
+.logo-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    font-size:42px;
+}
+
+.logo-title h1{
+    color:#d4af37;
+    font-size:28px;
+}
+
+.menu{
+    font-size:40px;
+}
+
+/* WELCOME */
 
 .welcome{
-  margin-bottom:22px;
+    margin:38px 0 30px;
 }
 
-.welcome h1{
-  font-size:27px;
-  margin-bottom:7px;
+.welcome h2{
+    font-size:34px;
+    margin-bottom:15px;
 }
 
-.welcome span{
-  color:#d4af37;
+.welcome h2 span{
+    color:#d4af37;
 }
 
-.welcome p{
-  color:#9baabd;
+.subtitle{
+    color:#8f9bad;
+    font-size:22px;
 }
 
-.filters{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-bottom:15px;
+/* SELECT AREA */
+
+.select-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+    margin-bottom:30px;
 }
 
 select{
-  width:100%;
-  padding:15px;
-  border-radius:12px;
-  border:1px solid #344b65;
-  background:#10243b;
-  color:white;
-  font-size:15px;
+    width:100%;
+    padding:20px;
+
+    border-radius:20px;
+
+    background:#1c334d;
+    color:white;
+
+    border:1px solid #304761;
+
+    font-size:18px;
 }
 
-.season{
-  background:#d4af37;
-  color:#07111f;
-  font-weight:bold;
-}
+/* BIG BUTTONS */
 
-.full-button{
-  width:100%;
-  border:0;
-  border-radius:13px;
-  padding:17px;
-  margin-bottom:14px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
+.big-button{
+    width:100%;
+
+    padding:22px;
+
+    margin-bottom:22px;
+
+    border:none;
+    border-radius:25px;
+
+    font-size:22px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    color:white;
 }
 
 .payment{
-  background:#2468e8;
-  color:white;
+    background:#0645c7;
 }
 
-.match{
-  background:#d4af37;
-  color:#07111f;
+.summary{
+    background:#795000;
 }
 
-.cards{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:8px;
+/* MENU CARDS */
+
+.card-grid{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:22px;
+
+    margin-top:45px;
 }
 
 .card{
-  background:#10243b;
-  border:1px solid #263e59;
-  border-radius:14px;
-  padding:20px 10px;
-  text-align:center;
-  cursor:pointer;
+    min-height:190px;
+
+    background:#020d26;
+
+    border:1px solid #263a58;
+
+    border-radius:25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:0.2s;
 }
 
 .card:hover{
-  border-color:#d4af37;
+    transform:translateY(-3px);
+    border-color:#d4af37;
 }
 
-.card .icon{
-  font-size:28px;
-  margin-bottom:8px;
+.card-icon{
+    font-size:50px;
+    margin-bottom:18px;
 }
 
 .card h3{
-  font-size:15px;
-  color:#d4af37;
+    color:#d4af37;
+    font-size:25px;
+    margin-bottom:10px;
 }
 
 .card p{
-  color:#8fa0b3;
-  font-size:12px;
-  margin-top:5px;
+    color:#8f9bad;
+    font-size:18px;
 }
 
-.bottom{
-  display:flex;
-  justify-content:center;
-  margin-top:25px;
+/* LOGOUT */
+
+.logout-area{
+    text-align:center;
+    margin:50px 0 25px;
 }
 
 .logout{
-  background:#242b34;
-  color:#ff7777;
-  border:1px solid #49363b;
-  border-radius:12px;
-  padding:14px 50px;
-  font-weight:bold;
-  cursor:pointer;
+    padding:20px 70px;
+
+    border-radius:20px;
+
+    border:1px solid #444;
+
+    background:#292d34;
+
+    color:#ff7070;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    cursor:pointer;
 }
 
-.footer{
-  text-align:center;
-  color:#64748b;
-  font-size:12px;
-  margin-top:30px;
+/* MOBILE */
+
+@media(max-width:650px){
+
+    .container{
+        padding:18px;
+    }
+
+    .logo{
+        font-size:36px;
+    }
+
+    .logo-title h1{
+        font-size:25px;
+    }
+
+    .menu{
+        font-size:35px;
+    }
+
+    .welcome h2{
+        font-size:30px;
+    }
+
+    .subtitle{
+        font-size:19px;
+    }
+
+    .select-grid{
+        grid-template-columns:1fr 1fr;
+        gap:15px;
+    }
+
+    select{
+        padding:18px 12px;
+        font-size:16px;
+    }
+
+    .card-grid{
+        gap:15px;
+    }
+
+    .card{
+        min-height:175px;
+    }
+
+    .card-icon{
+        font-size:42px;
+    }
+
+    .card h3{
+        font-size:21px;
+    }
+
+    .card p{
+        font-size:16px;
+    }
+
+    .logout{
+        padding:18px 55px;
+    }
 }
 
-@media(max-width:500px){
-  .container{
-    padding:18px;
-  }
-
-  .filters{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .welcome h1{
-    font-size:24px;
-  }
-}
 </style>
 </head>
 
 <body>
 
-<header class="header">
-  <div class="logo">⚽ XAMAAS TEAM</div>
-  <div class="menu">☰</div>
-</header>
+<div class="container">
 
-<main class="container">
+    <!-- HEADER -->
 
-  <section class="welcome">
-    <h1>WELCOME, <span>PLAYER</span></h1>
-    <p>Football Management System</p>
-  </section>
+    <header class="header">
 
-  <section class="filters">
+        <div class="logo-title">
 
-    <select>
-      <option>2026</option>
-      <option>2025</option>
-      <option>2024</option>
-    </select>
+            <div class="logo">⚽</div>
 
-    <select class="season">
-      <option>🏆 SEASON</option>
-    </select>
+            <h1>XAMAAS TEAM</h1>
 
-    <select>
-      <option>-- MONTH --</option>
-      <option>January</option>
-      <option>February</option>
-      <option>March</option>
-      <option>April</option>
-      <option>May</option>
-      <option>June</option>
-      <option>July</option>
-      <option>August</option>
-      <option>September</option>
-      <option>October</option>
-      <option>November</option>
-      <option>December</option>
-    </select>
+        </div>
 
-    <select>
-      <option>-- WEEK --</option>
-      <option>Week 1</option>
-      <option>Week 2</option>
-      <option>Week 3</option>
-      <option>Week 4</option>
-    </select>
+        <div class="menu">☰</div>
 
-  </section>
+    </header>
 
-  <button class="full-button payment">
-    📊 VIEW PAYMENT REPORT
-  </button>
 
-  <button class="full-button match">
-    📝 MATCH SUMMARY
-  </button>
+    <!-- WELCOME -->
 
-  <section class="cards">
+    <section class="welcome">
 
-    <div class="card">
-      <div class="icon">👥</div>
-      <h3>PLAYERS</h3>
-      <p>Team Players</p>
+        <h2>
+            WELCOME, <span>PLAYER</span>
+        </h2>
+
+        <p class="subtitle">
+            Football Management System
+        </p>
+
+    </section>
+
+
+    <!-- YEAR & SEASON -->
+
+    <div class="select-grid">
+
+        <select id="year">
+
+            <option value="">2026</option>
+            <option>2027</option>
+            <option>2028</option>
+
+        </select>
+
+
+        <select id="season">
+
+            <option value="">🏆 SEASON</option>
+
+            <option>Season 1</option>
+            <option>Season 2</option>
+
+        </select>
+
+
+        <select id="month">
+
+            <option value="">-- MONTH --</option>
+
+            <option>January</option>
+            <option>February</option>
+            <option>March</option>
+            <option>April</option>
+            <option>May</option>
+            <option>June</option>
+            <option>July</option>
+            <option>August</option>
+            <option>September</option>
+            <option>October</option>
+            <option>November</option>
+            <option>December</option>
+
+        </select>
+
+
+        <select id="week">
+
+            <option value="">-- WEEK --</option>
+
+            <option>Week 1</option>
+            <option>Week 2</option>
+            <option>Week 3</option>
+            <option>Week 4</option>
+
+        </select>
+
     </div>
 
-    <div class="card">
-      <div class="icon">🏆</div>
-      <h3>LEADERBOARD</h3>
-      <p>Player Ranking</p>
+
+    <!-- REPORT BUTTON -->
+
+    <button
+        class="big-button payment"
+        onclick="paymentReport()"
+    >
+        📊 VIEW PAYMENT REPORT
+    </button>
+
+
+    <!-- MATCH SUMMARY -->
+
+    <button
+        class="big-button summary"
+        onclick="matchSummary()"
+    >
+        📄 MATCH SUMMARY
+    </button>
+
+
+    <!-- MAIN CARDS -->
+
+    <div class="card-grid">
+
+
+        <!-- PLAYERS -->
+
+        <div
+            class="card"
+            onclick="openPage('players.html')"
+        >
+
+            <div class="card-icon">👥</div>
+
+            <h3>PLAYERS</h3>
+
+            <p>Team Players</p>
+
+        </div>
+
+
+        <!-- LEADERBOARD -->
+
+        <div
+            class="card"
+            onclick="openPage('leaderboard.html')"
+        >
+
+            <div class="card-icon">🏆</div>
+
+            <h3>LEADERBOARD</h3>
+
+            <p>Player Ranking</p>
+
+        </div>
+
+
+        <!-- ATTENDANCE -->
+
+        <div
+            class="card"
+            onclick="openPage('attendance.html')"
+        >
+
+            <div class="card-icon">📋</div>
+
+            <h3>ATTENDANCE</h3>
+
+            <p>Attendance Record</p>
+
+        </div>
+
+
+        <!-- MATCHES -->
+
+        <div
+            class="card"
+            onclick="openPage('matches.html')"
+        >
+
+            <div class="card-icon">⚽</div>
+
+            <h3>MATCHES</h3>
+
+            <p>Match Records</p>
+
+        </div>
+
     </div>
 
-    <div class="card">
-      <div class="icon">📋</div>
-      <h3>ATTENDANCE</h3>
-      <p>Attendance Record</p>
+
+    <!-- LOGOUT -->
+
+    <div class="logout-area">
+
+        <button
+            class="logout"
+            onclick="logout()"
+        >
+            🚪 LOGOUT
+        </button>
+
     </div>
 
-    <div class="card">
-      <div class="icon">⚽</div>
-      <h3>MATCHES</h3>
-      <p>Match Records</p>
-    </div>
+</div>
 
-  </section>
 
-  <div class="bottom">
-    <button class="logout">🚪 LOGOUT</button>
-  </div>
+<script>
 
-  <div class="footer">
-    Xamaas Team © 2026
-  </div>
+/* OPEN PAGE */
 
-</main>
+function openPage(page){
+
+    window.location.href = page;
+
+}
+
+
+/* PAYMENT REPORT */
+
+function paymentReport(){
+
+    alert("Payment Report-ka wali waa la diyaarinayaa.");
+
+}
+
+
+/* MATCH SUMMARY */
+
+function matchSummary(){
+
+    alert("Match Summary-ga wali waa la diyaarinayaa.");
+
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+    window.location.href = "index.html";
+
+}
+
+</script>
 
 </body>
 </html>
