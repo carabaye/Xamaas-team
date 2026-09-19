@@ -1,390 +1,594 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="so">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>XAMAAS TEAM - Signup</title>
+<title>XAMAAS TEAM - Sign Up</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body{
+    font-family:Arial,sans-serif;
+    background:#020817;
+    color:white;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #07152b;
-      font-family: Arial, sans-serif;
-    }
+.container{
+    width:100%;
+    max-width:500px;
+}
 
-    .signup-box {
-      width: 90%;
-      max-width: 400px;
-      background: #0d2342;
-      padding: 30px 25px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    }
+.logo{
+    text-align:center;
+    margin-bottom:30px;
+}
 
-    h1 {
-      text-align: center;
-      color: white;
-      margin-bottom: 8px;
-    }
+.logo-icon{
+    font-size:70px;
+    margin-bottom:10px;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #b8c5d6;
-      margin-bottom: 25px;
-    }
+.logo h1{
+    color:#d4af37;
+    font-size:32px;
+    margin-bottom:8px;
+}
 
-    label {
-      display: block;
-      color: white;
-      margin-bottom: 7px;
-      margin-top: 15px;
-    }
+.logo p{
+    color:#8f9bad;
+    font-size:16px;
+}
 
-    input {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 8px;
-      background: #ffffff;
-      font-size: 16px;
-      outline: none;
-    }
+.box{
+    background:#071426;
+    border:1px solid #263a58;
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 10px 40px rgba(0,0,0,.35);
+}
 
-    .signup-button {
-      width: 100%;
-      margin-top: 25px;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      background: #f2c94c;
-      color: #111;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.box h2{
+    text-align:center;
+    color:#d4af37;
+    margin-bottom:25px;
+    font-size:26px;
+}
 
-    .signup-button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+label{
+    display:block;
+    margin-bottom:8px;
+    color:#dfe6ef;
+    font-weight:bold;
+}
 
-    .message {
-      margin-top: 18px;
-      text-align: center;
-      font-size: 15px;
-      line-height: 1.5;
-    }
+input{
+    width:100%;
+    padding:16px;
+    margin-bottom:18px;
+    border-radius:14px;
+    border:1px solid #304761;
+    background:#10233a;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
 
-    .back {
-      display: block;
-      margin-top: 20px;
-      text-align: center;
-      color: #f2c94c;
-      text-decoration: none;
-    }
-  </style>
+input:focus{
+    border-color:#d4af37;
+}
+
+button{
+    width:100%;
+    padding:17px;
+    border:none;
+    border-radius:15px;
+    background:#d4af37;
+    color:#071426;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.message{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    border-radius:12px;
+    font-size:15px;
+    line-height:1.6;
+    word-break:break-word;
+}
+
+.success{
+    display:block;
+    background:#063b24;
+    border:1px solid #0e8f58;
+    color:#8ff0c3;
+}
+
+.error{
+    display:block;
+    background:#3b0b0b;
+    border:1px solid #d33;
+    color:#ffb0b0;
+}
+
+.info{
+    display:block;
+    background:#102b45;
+    border:1px solid #2878ad;
+    color:#a9dcff;
+}
+
+.back{
+    display:block;
+    text-align:center;
+    margin-top:22px;
+    color:#d4af37;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.back:hover{
+    text-decoration:underline;
+}
+
+.small{
+    text-align:center;
+    color:#7f8da0;
+    font-size:13px;
+    margin-top:18px;
+    line-height:1.5;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="signup-box">
+<div class="container">
 
-    <h1>XAMAAS TEAM</h1>
-
-    <div class="subtitle">
-      Create Player Account
+    <div class="logo">
+        <div class="logo-icon">⚽</div>
+        <h1>XAMAAS TEAM</h1>
+        <p>Football Management System</p>
     </div>
 
-    <!-- FULL NAME -->
-    <label for="fullname">Full Name</label>
+    <div class="box">
 
-    <input
-      type="text"
-      id="fullname"
-      placeholder="Geli magacaaga"
-    >
+        <h2>CREATE PLAYER ACCOUNT</h2>
 
-    <!-- EMAIL -->
-    <label for="email">Email</label>
+        <label for="fullName">Full Name</label>
+        <input
+            type="text"
+            id="fullName"
+            placeholder="Geli magacaaga"
+        >
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Geli email-kaaga"
-    >
+        <label for="email">Email</label>
+        <input
+            type="email"
+            id="email"
+            placeholder="Geli email-kaaga"
+        >
 
-    <!-- PASSWORD -->
-    <label for="password">Password</label>
+        <label for="password">Password</label>
+        <input
+            type="password"
+            id="password"
+            placeholder="Ugu yaraan 6 xaraf"
+        >
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Geli password"
-    >
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Mar kale geli password-ka"
+        >
 
-    <!-- CONFIRM PASSWORD -->
-    <label for="confirmPassword">Confirm Password</label>
+        <button id="createBtn" onclick="createAccount()">
+            CREATE ACCOUNT
+        </button>
 
-    <input
-      type="password"
-      id="confirmPassword"
-      placeholder="Ku celi password-ka"
-    >
+        <div id="message" class="message"></div>
 
-    <!-- BUTTON -->
-    <button
-      class="signup-button"
-      id="signupButton"
-      onclick="signup()"
-    >
-      📝 CREATE ACCOUNT
-    </button>
+        <a href="index.html" class="back">
+            ← BACK TO LOGIN
+        </a>
 
-    <!-- MESSAGE -->
-    <div
-      class="message"
-      id="message"
-    ></div>
+        <p class="small">
+            Xamaas Team Football Management System
+        </p>
 
-    <!-- BACK -->
-    <a
-      class="back"
-      href="index.html"
-    >
-      ← Back to Login
-    </a>
+    </div>
 
-  </div>
+</div>
 
 
-  <script>
+<!-- Supabase JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    /* =========================================
-       SUPABASE CONNECTION
-       ========================================= */
+<script>
 
-    const supabaseUrl =
-      "GELI_SUPABASE_PROJECT_URL_KAAGA_HALKAN";
+/* =====================================================
+   1. SUPABASE XOGTAADA HALKAN GALI
+   ===================================================== */
 
-    const supabaseKey =
-      "GELI_SUPABASE_PUBLISHABLE_KEY_KAAGA_HALKAN";
+const SUPABASE_URL = https://iihtxtuilegjslmrkjnp.supabase.co/rest/v1/
 
-
-    const supabaseClient =
-      window.supabase.createClient(
-        supabaseUrl,
-        supabaseKey
-      );
+const SUPABASE_PUBLISHABLE_KEY =
+sb_publishable_lh68Dlz5pKO1lZx5WDS7jA_ODfNaw8W
 
 
-    /* =========================================
-       SIGNUP FUNCTION
-       ========================================= */
+/* =====================================================
+   2. SUPABASE CLIENT
+   ===================================================== */
 
-    async function signup() {
+let supabaseClient = null;
 
-      const fullname =
-        document.getElementById("fullname").value.trim();
 
-      const email =
+/* =====================================================
+   3. MESSAGE
+   ===================================================== */
+
+function showMessage(text, type){
+
+    const message = document.getElementById("message");
+
+    message.className = "message " + type;
+
+    message.innerHTML = text;
+
+    message.style.display = "block";
+}
+
+
+/* =====================================================
+   4. HUBI SUPABASE INUU SI SAX AH U DIYAAR YAHAY
+   ===================================================== */
+
+function initializeSupabase(){
+
+    try{
+
+        if(
+            SUPABASE_URL.includes("GELI_SUPABASE") ||
+            SUPABASE_PUBLISHABLE_KEY.includes("GELI_SUPABASE")
+        ){
+
+            showMessage(
+                "❌ <b>Supabase lama gelin.</b><br><br>" +
+                "Fadlan geli Project URL iyo Publishable Key qaybta kore ee koodhka.",
+                "error"
+            );
+
+            return false;
+        }
+
+
+        if(!window.supabase){
+
+            showMessage(
+                "❌ <b>Supabase Library lama helin.</b><br><br>" +
+                "Hubi internet-ka kadibna bogga mar kale fur.",
+                "error"
+            );
+
+            return false;
+        }
+
+
+        supabaseClient = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+        return true;
+
+    }catch(error){
+
+        showMessage(
+            "❌ <b>Supabase lama bilaabi karin.</b><br><br>" +
+            "Qaladku waa: " +
+            escapeHtml(error.message),
+            "error"
+        );
+
+        return false;
+    }
+}
+
+
+/* =====================================================
+   5. CREATE ACCOUNT
+   ===================================================== */
+
+async function createAccount(){
+
+    const button = document.getElementById("createBtn");
+
+    const fullName =
+        document.getElementById("fullName").value.trim();
+
+    const email =
         document.getElementById("email").value.trim();
 
-      const password =
+    const password =
         document.getElementById("password").value;
 
-      const confirmPassword =
+    const confirmPassword =
         document.getElementById("confirmPassword").value;
 
-      const message =
-        document.getElementById("message");
 
-      const button =
-        document.getElementById("signupButton");
+    /* Nadiifi fariintii hore */
 
-
-      /* -----------------------------------------
-         CLEAR MESSAGE
-         ----------------------------------------- */
-
-      message.innerText = "";
+    document.getElementById("message").style.display = "none";
 
 
-      /* -----------------------------------------
-         CHECK EMPTY FIELDS
-         ----------------------------------------- */
+    /* Hubi magaca */
 
-      if (
-        fullname === "" ||
-        email === "" ||
-        password === "" ||
-        confirmPassword === ""
-      ) {
+    if(fullName === ""){
 
-        message.style.color = "#ff8585";
-
-        message.innerText =
-          "Fadlan buuxi dhammaan meelaha.";
+        showMessage(
+            "❌ Fadlan geli magaca ciyaaryahanka.",
+            "error"
+        );
 
         return;
-      }
+    }
 
 
-      /* -----------------------------------------
-         CHECK PASSWORD LENGTH
-         ----------------------------------------- */
+    /* Hubi email */
 
-      if (password.length < 6) {
+    if(email === ""){
 
-        message.style.color = "#ff8585";
-
-        message.innerText =
-          "Password-ku waa inuu ugu yaraan yahay 6 xaraf.";
+        showMessage(
+            "❌ Fadlan geli email-ka.",
+            "error"
+        );
 
         return;
-      }
+    }
 
 
-      /* -----------------------------------------
-         CHECK PASSWORD MATCH
-         ----------------------------------------- */
+    /* Hubi password */
 
-      if (password !== confirmPassword) {
+    if(password === ""){
 
-        message.style.color = "#ff8585";
-
-        message.innerText =
-          "Passwords-ku isma laha.";
+        showMessage(
+            "❌ Fadlan geli password-ka.",
+            "error"
+        );
 
         return;
-      }
+    }
 
 
-      /* -----------------------------------------
-         DISABLE BUTTON
-         ----------------------------------------- */
+    /* Password ugu yaraan 6 */
 
-      button.disabled = true;
+    if(password.length < 6){
 
-      button.innerText =
-        "Creating account...";
+        showMessage(
+            "❌ Password-ku waa inuu ahaadaa ugu yaraan 6 xaraf.",
+            "error"
+        );
+
+        return;
+    }
 
 
-      try {
+    /* Hubi labada password */
 
-        /* ---------------------------------------
-           CREATE SUPABASE ACCOUNT
-           --------------------------------------- */
+    if(password !== confirmPassword){
+
+        showMessage(
+            "❌ Labada password isku mid ma aha.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* Bilaabi Supabase */
+
+    if(!supabaseClient){
+
+        const ready = initializeSupabase();
+
+        if(!ready){
+            return;
+        }
+    }
+
+
+    /* Loading */
+
+    button.disabled = true;
+
+    button.innerText = "ACCOUNT-KA WAA LA SAMEYNAYAA...";
+
+
+    showMessage(
+        "⏳ Fadlan sug, account-ka ayaa la sameynayaa...",
+        "info"
+    );
+
+
+    try{
 
         const { data, error } =
-          await supabaseClient.auth.signUp({
+        await supabaseClient.auth.signUp({
 
             email: email,
 
             password: password,
 
             options: {
+                data: {
+                    full_name: fullName
+                }
+            }
 
-              data: {
+        });
 
-                full_name: fullname
 
-              }
+        /* Haddii Supabase qalad soo celiyo */
+
+        if(error){
+
+            console.log("SUPABASE ERROR:", error);
+
+            let errorMessage =
+                escapeHtml(error.message);
+
+
+            /* Qaladaad caan ah */
+
+            if(
+                error.message.toLowerCase().includes("already registered")
+            ){
+
+                errorMessage =
+                    "Email-kan hore ayaa account loogu sameeyay.";
+
+            }
+            else if(
+                error.message.toLowerCase().includes("invalid email")
+            ){
+
+                errorMessage =
+                    "Email-ka aad gelisay sax ma aha.";
+
+            }
+            else if(
+                error.message.toLowerCase().includes("password")
+            ){
+
+                errorMessage =
+                    "Password-ka waxaa jira qalad. Hubi inuu yahay ugu yaraan 6 xaraf.";
+
+            }
+            else if(
+                error.message.toLowerCase().includes("fetch")
+            ){
+
+                errorMessage =
+                    "Internet-ka ama xiriirka Supabase ayaa cilad leh.";
 
             }
 
-          });
+
+            showMessage(
+                "❌ <b>ACCOUNT-KA LAMA SAMEYN.</b><br><br>" +
+                "<b>Sababta:</b><br>" +
+                errorMessage +
+                "<br><br>" +
+                "<small>Qalad faahfaahsan: " +
+                escapeHtml(error.message) +
+                "</small>",
+                "error"
+            );
 
 
-        /* ---------------------------------------
-           CHECK ERROR
-           --------------------------------------- */
+            button.disabled = false;
+            button.innerText = "CREATE ACCOUNT";
 
-        if (error) {
-
-          message.style.color = "#ff8585";
-
-          message.innerText =
-            error.message;
-
-          button.disabled = false;
-
-          button.innerText =
-            "📝 CREATE ACCOUNT";
-
-          return;
+            return;
         }
 
 
-        /* ---------------------------------------
-           SUCCESS
-           --------------------------------------- */
+        /* Haddii account-ku si guul ah u sameysmo */
 
-        message.style.color = "#62d98b";
-
-        message.innerText =
-          "Account-ka waa la sameeyay!";
-
-
-        /*
-          Supabase trigger-keena ayaa hadda
-          user-kan ku dari doona:
-
-          public.players
-
-          full_name
-          email
-          team = Xamaas Team
-        */
+        showMessage(
+            "✅ <b>ACCOUNT-KA WAA LA SAMEEYAY!</b><br><br>" +
+            "Magaca: " + escapeHtml(fullName) +
+            "<br>" +
+            "Email: " + escapeHtml(email) +
+            "<br><br>" +
+            "Hadda waxaad ku noqon kartaa Login.",
+            "success"
+        );
 
 
-        button.innerText =
-          "Account Created ✓";
+        button.innerText = "ACCOUNT CREATED ✓";
 
 
-        /* ---------------------------------------
-           GO LOGIN
-           --------------------------------------- */
+        /* 2 ilbiriqsi kadib Login */
 
-        setTimeout(function() {
+        setTimeout(function(){
 
-          window.location.href =
-            "index.html";
+            window.location.href = "index.html";
 
-        }, 3000);
+        },2000);
 
 
-      } catch (err) {
+    }catch(error){
 
-        message.style.color = "#ff8585";
+        console.log("JAVASCRIPT ERROR:", error);
 
-        message.innerText =
-           "Qaladku waa: " + err.message;
+        showMessage(
+            "❌ <b>QALAD AYA DHACAY.</b><br><br>" +
+            "<b>Faahfaahinta qaladka:</b><br>" +
+            escapeHtml(error.message) +
+            "<br><br>" +
+            "Haddii qaladkani sii socdo, hubi Supabase URL-ka iyo Publishable Key-ga.",
+            "error"
+        );
+
 
         button.disabled = false;
 
-
-        button.innerText =
-          "📝 CREATE ACCOUNT";
-
-        console.error(err);
-
-      }
-
+        button.innerText = "CREATE ACCOUNT";
     }
 
-  </script>
+}
+
+
+/* =====================================================
+   6. KA HORTAG HTML ERROR
+   ===================================================== */
+
+function escapeHtml(text){
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+/* =====================================================
+   7. BILAAB SUPABASE MARKA BOGGU FURMO
+   ===================================================== */
+
+window.addEventListener("load", function(){
+
+    initializeSupabase();
+
+});
+
+</script>
 
 </body>
 </html>
