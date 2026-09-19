@@ -365,19 +365,21 @@
         }, 3000);
 
 
-      } catch (err) {
+      } } catch (err) {
 
-        message.style.color = "#ff8585";
+  message.style.color = "#ff8585";
 
-        message.innerText =
-          "Wax qalad ah ayaa dhacay. Fadlan mar kale isku day.";
+  message.innerText =
+    "Qaladku waa: " + err.message;
 
-        button.disabled = false;
+  button.disabled = false;
 
-        button.innerText =
-          "📝 CREATE ACCOUNT";
+  button.innerText =
+    "📝 CREATE ACCOUNT";
 
-        console.error(err);
+  console.error(err);
+
+}
 
       }
 
