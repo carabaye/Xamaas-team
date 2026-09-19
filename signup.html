@@ -175,11 +175,11 @@
        SUPABASE CONNECTION
        ========================================= */
 
-    const supabaseUrl =https://iihtxtuilegjslmrkjnp.supabase.co/rest/v1/
-    
+    const supabaseUrl =
+      "GELI_SUPABASE_PROJECT_URL_KAAGA_HALKAN";
 
-    const supabaseKey =sb_publishable_lh68Dlz5pKO1lZx5WDS7jA_ODfNaw8W
-      
+    const supabaseKey =
+      "GELI_SUPABASE_PUBLISHABLE_KEY_KAAGA_HALKAN";
 
 
     const supabaseClient =
@@ -365,21 +365,19 @@
         }, 3000);
 
 
-      } } catch (err) {
+      } catch (err) {
 
-  message.style.color = "#ff8585";
+        message.style.color = "#ff8585";
 
-  message.innerText =
-    "Qaladku waa: " + err.message;
+        message.innerText =
+          "Wax qalad ah ayaa dhacay. Fadlan mar kale isku day.";
 
-  button.disabled = false;
+        button.disabled = false;
 
-  button.innerText =
-    "📝 CREATE ACCOUNT";
+        button.innerText =
+          "📝 CREATE ACCOUNT";
 
-  console.error(err);
-
-}
+        console.error(err);
 
       }
 
