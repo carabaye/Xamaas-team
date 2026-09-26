@@ -6,7 +6,6 @@
 
 <title>XAMAAS TEAM - Players</title>
 
-<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -30,8 +29,6 @@ body{
     margin:auto;
 }
 
-/* HEADER */
-
 .header{
     background:#10243b;
     border:1px solid #304761;
@@ -49,8 +46,6 @@ body{
 .header p{
     color:#aebdce;
 }
-
-/* SUMMARY */
 
 .summary{
     display:grid;
@@ -75,8 +70,6 @@ body{
 .card p{
     color:#aebdce;
 }
-
-/* ACTIONS */
 
 .actions{
     display:flex;
@@ -110,8 +103,6 @@ body{
     cursor:pointer;
 }
 
-/* PLAYERS */
-
 .players-list{
     display:grid;
     gap:12px;
@@ -143,15 +134,6 @@ body{
     color:#62d98b !important;
 }
 
-.profile-button{
-    border:1px solid #48627e;
-    background:#0c1b2d;
-    color:white;
-    border-radius:10px;
-    padding:9px 13px;
-    cursor:pointer;
-}
-
 .empty{
     background:#10243b;
     border:1px solid #304761;
@@ -160,8 +142,6 @@ body{
     text-align:center;
     color:#aebdce;
 }
-
-/* MODAL */
 
 .modal{
     display:none;
@@ -239,9 +219,8 @@ body{
     margin-top:14px;
     text-align:center;
     font-size:14px;
+    word-break:break-word;
 }
-
-/* MOBILE */
 
 @media(max-width:600px){
 
@@ -270,15 +249,10 @@ body{
 
 <div class="container">
 
-    <!-- HEADER -->
-
     <div class="header">
         <h1>⚽ XAMAAS TEAM</h1>
         <p>Players</p>
     </div>
-
-
-    <!-- SUMMARY -->
 
     <div class="summary">
 
@@ -293,9 +267,6 @@ body{
         </div>
 
     </div>
-
-
-    <!-- SEARCH + ADD -->
 
     <div class="actions">
 
@@ -317,9 +288,6 @@ body{
 
     </div>
 
-
-    <!-- PLAYERS LIST -->
-
     <div
         id="playersList"
         class="players-list"
@@ -328,17 +296,11 @@ body{
 </div>
 
 
-<!-- ADD PLAYER MODAL -->
-
-<div
-    id="playerModal"
-    class="modal"
->
+<div id="playerModal" class="modal">
 
     <div class="modal-box">
 
         <h2>➕ Add Player</h2>
-
 
         <div class="form-group">
 
@@ -352,7 +314,6 @@ body{
 
         </div>
 
-
         <div class="form-group">
 
             <label>Email</label>
@@ -365,7 +326,6 @@ body{
 
         </div>
 
-
         <div class="form-group">
 
             <label>Phone</label>
@@ -377,10 +337,6 @@ body{
             >
 
         </div>
-
-
-        <!-- POSITION SI KAS AH LOOGA SAARAY -->
-
 
         <div class="modal-buttons">
 
@@ -400,7 +356,6 @@ body{
 
         </div>
 
-
         <div
             id="message"
             class="message"
@@ -414,22 +369,14 @@ body{
 <script>
 
 /* ==========================================
-   SUPABASE CONNECTION
+   SUPABASE
 ========================================== */
 
-/*
-   HALKAN geli labada xogood ee aad hore u isticmaashay:
+const supabaseUrl =
+    "https://iihtxtuilegjslmrkjnp.supabase.co";
 
-   1. SUPABASE PROJECT URL
-   2. SUPABASE PUBLISHABLE KEY
-
-   HA GELIN sb_secret key.
-*/
-
-const supabaseUrl = https://iihtxtuilegjslmrkjnp.supabase.co/rest/v1/
-
-const supabaseKey = 
-sb_publishable_lh68Dlz5pKO1lZx5WDS7jA_ODfNaw8W
+const supabaseKey =
+    "sb_publishable_lh68Dlz5pKO1lZx5WDS7jA_ODfNaw8W";
 
 const supabaseClient =
     window.supabase.createClient(
@@ -439,14 +386,14 @@ const supabaseClient =
 
 
 /* ==========================================
-   PLAYERS ARRAY
+   PLAYERS
 ========================================== */
 
 let players = [];
 
 
 /* ==========================================
-   LOAD PLAYERS FROM DATABASE
+   LOAD PLAYERS
 ========================================== */
 
 async function loadPlayers(){
@@ -457,30 +404,46 @@ async function loadPlayers(){
     list.innerHTML =
         '<div class="empty">⏳ Ciyaartoyda waa la soo wadaa...</div>';
 
+    try{
 
-    const { data, error } =
-        await supabaseClient
-        .from("players")
-        .select("*")
-        .order("created_at", {
-            ascending:false
-        });
+        const { data, error } =
+            await supabaseClient
+            .from("players")
+            .select("*")
+            .order("created_at", {
+                ascending:false
+            });
 
+        if(error){
 
-    if(error){
+            console.error(
+                "SUPABASE ERROR:",
+                error
+            );
+
+            list.innerHTML =
+                `<div class="empty">
+                    ❌ Qalad database ah:<br><br>
+                    ${escapeHtml(error.message)}
+                </div>`;
+
+            return;
+        }
+
+        players = data || [];
+
+        renderPlayers();
+
+    }catch(error){
 
         console.error(error);
 
         list.innerHTML =
-            '<div class="empty">❌ Ciyaartoyda lama soo qaadi karin.</div>';
-
-        return;
+            `<div class="empty">
+                ❌ Qalad ayaa dhacay:<br><br>
+                ${escapeHtml(error.message)}
+            </div>`;
     }
-
-
-    players = data || [];
-
-    renderPlayers();
 
 }
 
@@ -494,14 +457,12 @@ function renderPlayers(){
     const list =
         document.getElementById("playersList");
 
-
     const search =
         document
         .getElementById("searchInput")
         .value
         .toLowerCase()
         .trim();
-
 
     const filtered =
         players.filter(player => {
@@ -527,19 +488,12 @@ function renderPlayers(){
         });
 
 
-    /* TOTAL */
-
     document.getElementById("totalPlayers")
         .innerText = players.length;
-
-
-    /* ACTIVE */
 
     document.getElementById("activePlayers")
         .innerText = players.length;
 
-
-    /* EMPTY */
 
     if(filtered.length === 0){
 
@@ -550,14 +504,13 @@ function renderPlayers(){
     }
 
 
-    /* PLAYERS */
-
     list.innerHTML =
         filtered.map(player => {
 
             const name =
                 escapeHtml(
-                    player.full_name || "Magac la'aan"
+                    player.full_name ||
+                    "Magac la'aan"
                 );
 
             const email =
@@ -572,9 +525,9 @@ function renderPlayers(){
 
             const team =
                 escapeHtml(
-                    player.team || "Xamaas Team"
+                    player.team ||
+                    "Xamaas Team"
                 );
-
 
             return `
 
@@ -612,7 +565,7 @@ function renderPlayers(){
 
 
 /* ==========================================
-   ADD PLAYER MODAL
+   OPEN MODAL
 ========================================== */
 
 function openAddPlayer(){
@@ -625,6 +578,10 @@ function openAddPlayer(){
 
 }
 
+
+/* ==========================================
+   CLOSE MODAL
+========================================== */
 
 function closeAddPlayer(){
 
@@ -647,7 +604,7 @@ function closeAddPlayer(){
 
 
 /* ==========================================
-   ADD PLAYER TO SUPABASE
+   ADD PLAYER
 ========================================== */
 
 async function addPlayer(){
@@ -658,13 +615,11 @@ async function addPlayer(){
         .value
         .trim();
 
-
     const email =
         document
         .getElementById("playerEmail")
         .value
         .trim();
-
 
     const phone =
         document
@@ -672,12 +627,11 @@ async function addPlayer(){
         .value
         .trim();
 
-
     const message =
         document.getElementById("message");
 
 
-    /* CHECK NAME */
+    /* NAME */
 
     if(name === ""){
 
@@ -691,32 +645,84 @@ async function addPlayer(){
     }
 
 
-    /* INSERT */
+    /* EMAIL */
 
-    const { data, error } =
-        await supabaseClient
-        .from("players")
-        .insert({
+    if(email === ""){
 
-            full_name:name,
+        message.style.color =
+            "#ff8585";
 
-            email:
-                email === ""
-                ? null
-                : email,
+        message.innerText =
+            "Fadlan geli email-ka ciyaaryahanka.";
 
-            phone:
-                phone === ""
-                ? null
-                : phone,
-
-            team:"Xamaas Team"
-
-        })
-        .select();
+        return;
+    }
 
 
-    if(error){
+    message.style.color =
+        "#aebdce";
+
+    message.innerText =
+        "⏳ Ciyaaryahanka waa la gelinayaa...";
+
+
+    try{
+
+        const { error } =
+            await supabaseClient
+            .from("players")
+            .insert({
+
+                full_name:name,
+
+                email:email,
+
+                phone:
+                    phone === ""
+                    ? null
+                    : phone,
+
+                team:"Xamaas Team"
+
+            });
+
+
+        if(error){
+
+            console.error(
+                "INSERT ERROR:",
+                error
+            );
+
+            message.style.color =
+                "#ff8585";
+
+            message.innerText =
+                "Qalad: " +
+                error.message;
+
+            return;
+        }
+
+
+        message.style.color =
+            "#62d98b";
+
+        message.innerText =
+            "Ciyaaryahanka waa lagu daray. ✅";
+
+
+        await loadPlayers();
+
+
+        setTimeout(function(){
+
+            closeAddPlayer();
+
+        },1000);
+
+
+    }catch(error){
 
         console.error(error);
 
@@ -724,36 +730,15 @@ async function addPlayer(){
             "#ff8585";
 
         message.innerText =
-            "Qalad ayaa dhacay: " +
+            "Qalad: " +
             error.message;
-
-        return;
     }
-
-
-    message.style.color =
-        "#62d98b";
-
-    message.innerText =
-        "Ciyaaryahanka waa lagu daray. ✅";
-
-
-    /* RELOAD */
-
-    await loadPlayers();
-
-
-    setTimeout(function(){
-
-        closeAddPlayer();
-
-    },1000);
 
 }
 
 
 /* ==========================================
-   HTML SECURITY
+   SECURITY
 ========================================== */
 
 function escapeHtml(text){
@@ -777,7 +762,6 @@ function(event){
 
     const modal =
         document.getElementById("playerModal");
-
 
     if(event.target === modal){
 
