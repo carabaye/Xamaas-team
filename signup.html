@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="so">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,11 @@
 <title>XAMAAS TEAM - Sign Up</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0
+}
 
 body{
     font-family:Arial,sans-serif;
@@ -79,6 +83,7 @@ button{
     color:white;
     font-size:18px;
     font-weight:bold;
+    cursor:pointer;
 }
 
 button:disabled{
@@ -156,18 +161,37 @@ button:disabled{
 <h2>CREATE PLAYER ACCOUNT</h2>
 
 <label>Full Name</label>
-<input id="fullName" type="text" placeholder="Geli magacaaga">
+<input
+    id="fullName"
+    type="text"
+    placeholder="Geli magacaaga"
+>
 
 <label>Email</label>
-<input id="email" type="email" placeholder="Geli email-kaaga">
+<input
+    id="email"
+    type="email"
+    placeholder="Geli email-kaaga"
+>
 
 <label>Password</label>
-<input id="password" type="password" placeholder="Ugu yaraan 6 xaraf">
+<input
+    id="password"
+    type="password"
+    placeholder="Ugu yaraan 6 xaraf"
+>
 
 <label>Confirm Password</label>
-<input id="confirmPassword" type="password" placeholder="Mar kale geli password-ka">
+<input
+    id="confirmPassword"
+    type="password"
+    placeholder="Mar kale geli password-ka"
+>
 
-<button id="createBtn" onclick="createAccount()">
+<button
+    id="createBtn"
+    onclick="createAccount()"
+>
 CREATE ACCOUNT
 </button>
 
@@ -187,22 +211,378 @@ Bogga ayaa hubinaya khaladaadka...
 
 
 <!-- SUPABASE LIBRARY -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-<!-- ERROR MONITOR -->
 <script>
 
-window.onerror = function(message, source, lineno, colno, error){
+/* =================================================
+   SUPABASE CONNECTION
+   ================================================= */
 
-    const box = document.getElementById("diagnostic");
+const SUPABASE_URL =
+"https://iihtxtuilegjslmrkjnp.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_lh68Dlz5pKO1lZx5WDS7jA_ODfNaw8W";
+
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =================================================
+   ELEMENTS
+   ================================================= */
+
+const diagnostic =
+document.getElementById("diagnostic");
+
+const message =
+document.getElementById("message");
+
+const button =
+document.getElementById("createBtn");
+
+
+/* =================================================
+   INITIAL CHECK
+   ================================================= */
+
+if(window.supabase){
+
+    diagnostic.innerHTML =
+    "<b>🟢 SUPABASE CLIENT OK</b><br><br>" +
+    "Supabase si sax ah ayuu u bilaabmay.<br>" +
+    "CREATE ACCOUNT waa diyaar.";
+
+}else{
+
+    diagnostic.innerHTML =
+    "<b>🔴 SUPABASE LIBRARY ERROR</b><br><br>" +
+    "Supabase JavaScript library lama soo dejin.";
+
+}
+
+
+/* =================================================
+   CREATE ACCOUNT
+   ================================================= */
+
+async function createAccount(){
+
+    const fullName =
+    document
+    .getElementById("fullName")
+    .value
+    .trim();
+
+    const email =
+    document
+    .getElementById("email")
+    .value
+    .trim();
+
+    const password =
+    document
+    .getElementById("password")
+    .value;
+
+    const confirmPassword =
+    document
+    .getElementById("confirmPassword")
+    .value;
+
+
+    /* RESET MESSAGE */
+
+    message.className="message";
+    message.style.display="none";
+
+
+    /* =================================================
+       FULL NAME
+       ================================================= */
+
+    if(!fullName){
+
+        showMessage(
+            "❌ Magaca geli.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       EMAIL
+       ================================================= */
+
+    if(!email){
+
+        showMessage(
+            "❌ Email-ka geli.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       PASSWORD
+       ================================================= */
+
+    if(password.length < 6){
+
+        showMessage(
+            "❌ Password-ku waa inuu noqdaa ugu yaraan 6 xaraf.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       CONFIRM PASSWORD
+       ================================================= */
+
+    if(password !== confirmPassword){
+
+        showMessage(
+            "❌ Labada password isku mid ma aha.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       START
+       ================================================= */
+
+    button.disabled=true;
+
+    button.innerText=
+    "ACCOUNT-KA WAA LA SAMEYNAYAA...";
+
+
+    showMessage(
+        "⏳ Supabase ayaa account-ka sameynaya...",
+        "info"
+    );
+
+
+    diagnostic.innerHTML =
+    "<b>🟡 SUPABASE REQUEST</b><br><br>" +
+    "Codsiga account-ka ayaa loo dirayaa Supabase...";
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.signUp({
+
+            email:email,
+
+            password:password,
+
+            options:{
+                data:{
+                    full_name:fullName
+                }
+            }
+
+        });
+
+
+        /* =================================================
+           ERROR
+           ================================================= */
+
+        if(error){
+
+            console.error(
+                "SUPABASE ERROR:",
+                error
+            );
+
+
+            diagnostic.innerHTML =
+            "<b>🔴 SUPABASE ERROR</b><br><br>" +
+
+            "<b>Error message:</b><br>" +
+            escapeText(error.message) +
+
+            "<br><br>" +
+
+            "<b>Error name:</b><br>" +
+            escapeText(
+                error.name || "Unknown"
+            ) +
+
+            "<br><br>" +
+
+            "<b>Status:</b><br>" +
+            escapeText(
+                String(
+                    error.status || "Unknown"
+                )
+            );
+
+
+            showMessage(
+                "❌ <b>ACCOUNT-KA LAMA SAMEYN.</b><br><br>" +
+                escapeText(error.message),
+                "error"
+            );
+
+
+            button.disabled=false;
+
+            button.innerText=
+            "CREATE ACCOUNT";
+
+            return;
+        }
+
+
+        /* =================================================
+           SUCCESS
+           ================================================= */
+
+        diagnostic.innerHTML =
+        "<b>🟢 ACCOUNT CREATED</b><br><br>" +
+
+        "Supabase wuxuu aqbalay account-ka.<br><br>" +
+
+        "<b>User ID:</b><br>" +
+
+        escapeText(
+            data.user?.id || "Unknown"
+        );
+
+
+        showMessage(
+            "✅ <b>ACCOUNT-KA WAA LA SAMEEYAY!</b><br><br>" +
+            "Account-kaaga Xamaas Team waa la sameeyay.",
+            "success"
+        );
+
+
+        button.innerText=
+        "ACCOUNT CREATED ✓";
+
+
+        /*
+           Haddii email confirmation
+           uu ON yahay, Supabase wuxuu
+           qofka ka rabaa inuu email-ka xaqiijiyo.
+        */
+
+
+    }catch(error){
+
+        console.error(
+            "REQUEST ERROR:",
+            error
+        );
+
+
+        diagnostic.innerHTML =
+        "<b>🔴 REQUEST ERROR</b><br><br>" +
+
+        "<b>Qalad:</b><br>" +
+
+        escapeText(
+            error.message
+        );
+
+
+        showMessage(
+            "❌ Qalad ayaa dhacay.<br><br>" +
+            escapeText(error.message),
+            "error"
+        );
+
+
+        button.disabled=false;
+
+        button.innerText=
+        "CREATE ACCOUNT";
+
+    }
+
+}
+
+
+/* =================================================
+   MESSAGE
+   ================================================= */
+
+function showMessage(text,type){
+
+    const box =
+    document.getElementById("message");
+
+    box.className =
+    "message " + type;
+
+    box.innerHTML=text;
+
+    box.style.display="block";
+
+}
+
+
+/* =================================================
+   SECURITY
+   ================================================= */
+
+function escapeText(text){
+
+    const div =
+    document.createElement("div");
+
+    div.textContent=text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =================================================
+   JAVASCRIPT ERROR MONITOR
+   ================================================= */
+
+window.onerror =
+function(
+    message,
+    source,
+    lineno,
+    colno,
+    error
+){
+
+    const box =
+    document.getElementById("diagnostic");
 
     if(box){
 
         box.innerHTML =
         "<b>🔴 JAVASCRIPT ERROR</b><br><br>" +
 
-        "<b>Qalad:</b> " +
+        "<b>Qalad:</b><br>" +
         escapeText(message) +
 
         "<br><br>" +
@@ -223,342 +603,51 @@ window.onerror = function(message, source, lineno, colno, error){
     }
 
     return false;
+
 };
 
 
-window.addEventListener("unhandledrejection", function(event){
-
-    const box = document.getElementById("diagnostic");
-
-    if(box){
-
-        let reason = event.reason;
-
-        if(reason && reason.message){
-            reason = reason.message;
-        }
-
-        box.innerHTML =
-        "<b>🔴 ASYNC ERROR</b><br><br>" +
-        "<b>Qalad:</b><br>" +
-        escapeText(String(reason));
-    }
-
-});
-
-
-function escapeText(text){
-
-    const div = document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-}
-
-</script>
-
-
-<!-- MAIN PROGRAM -->
-<script>
-
-try{
-
 /* =================================================
-   SUPABASE SETTINGS
-   HALKAN KELIYA AYAAD XOGTA GELINAYSAA
+   ASYNC ERROR MONITOR
    ================================================= */
 
-const SUPABASE_URL="https://iihtxtuilegjslmrkjnp.supabase.co"
+window.addEventListener(
+    "unhandledrejection",
+    function(event){
 
-const SUPABASE_PUBLISHABLE_KEY =sb_publishable_...
+        const box =
+        document.getElementById("diagnostic");
 
+        if(box){
 
-/* =================================================
-   HUBINTA SUPABASE
-   ================================================= */
+            let reason =
+            event.reason;
 
-const diagnostic =
-document.getElementById("diagnostic");
+            if(
+                reason &&
+                reason.message
+            ){
 
+                reason =
+                reason.message;
 
-if(!window.supabase){
-
-    diagnostic.innerHTML =
-    "<b>🔴 SUPABASE LIBRARY ERROR</b><br><br>" +
-    "Supabase JavaScript library lama soo dejin.";
-    
-}
-else if(
-    SUPABASE_URL.includes("GELI_") ||
-    SUPABASE_PUBLISHABLE_KEY.includes("GELI_") ||
-    SUPABASE_PUBLISHABLE_KEY.includes("SB_PUBLISHABLE_KEY")
-){
-
-    diagnostic.innerHTML =
-    "<b>🔴 SUPABASE KEY ERROR</b><br><br>" +
-    "URL ama Publishable Key weli lama gelin.<br><br>" +
-    "Hubi labada meelood ee SUPABASE_URL iyo SUPABASE_PUBLISHABLE_KEY.";
-
-}
-else{
-
-    const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
-
-    diagnostic.innerHTML =
-    "<b>🟢 SUPABASE CLIENT OK</b><br><br>" +
-    "Supabase JavaScript si sax ah ayuu u bilaabmay.<br>" +
-    "Hadda CREATE ACCOUNT waa diyaar.";
-
-    
-    /* =============================================
-       CREATE ACCOUNT
-       ============================================= */
-
-    window.createAccount = async function(){
-
-        const button =
-        document.getElementById("createBtn");
-
-        const message =
-        document.getElementById("message");
-
-        const fullName =
-        document.getElementById("fullName").value.trim();
-
-        const email =
-        document.getElementById("email").value.trim();
-
-        const password =
-        document.getElementById("password").value;
-
-        const confirmPassword =
-        document.getElementById("confirmPassword").value;
-
-
-        message.className="message";
-
-
-        /* NAME */
-
-        if(!fullName){
-
-            showMessage(
-                "❌ Magaca geli.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        /* EMAIL */
-
-        if(!email){
-
-            showMessage(
-                "❌ Email-ka geli.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        /* PASSWORD */
-
-        if(password.length < 6){
-
-            showMessage(
-                "❌ Password-ku waa inuu noqdaa ugu yaraan 6 xaraf.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        /* CONFIRM */
-
-        if(password !== confirmPassword){
-
-            showMessage(
-                "❌ Labada password isku mid ma aha.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        button.disabled=true;
-        button.innerText="ACCOUNT-KA WAA LA SAMEYNAYAA...";
-
-
-        showMessage(
-            "⏳ Supabase ayaa account-ka sameynaya...",
-            "info"
-        );
-
-
-        diagnostic.innerHTML =
-        "<b>🟡 SUPABASE REQUEST</b><br><br>" +
-        "Codsiga account-ka ayaa loo dirayaa Supabase...";
-
-
-        try{
-
-            const result =
-            await supabaseClient.auth.signUp({
-
-                email:email,
-
-                password:password,
-
-                options:{
-                    data:{
-                        full_name:fullName
-                    }
-                }
-
-            });
-
-
-            const data=result.data;
-            const error=result.error;
-
-
-            /* =====================================
-               SUPABASE ERROR
-               ===================================== */
-
-            if(error){
-
-                diagnostic.innerHTML =
-                "<b>🔴 SUPABASE ERROR</b><br><br>" +
-
-                "<b>Error message:</b><br>" +
-                escapeText(error.message) +
-
-                "<br><br>" +
-
-                "<b>Error name:</b><br>" +
-                escapeText(error.name || "Unknown") +
-
-                "<br><br>" +
-
-                "<b>Status:</b><br>" +
-                escapeText(String(error.status || "Unknown"));
-
-                
-                showMessage(
-                    "❌ <b>ACCOUNT-KA LAMA SAMEYN.</b><br><br>" +
-                    escapeText(error.message),
-                    "error"
-                );
-
-
-                button.disabled=false;
-                button.innerText="CREATE ACCOUNT";
-
-                return;
             }
 
+            box.innerHTML =
+            "<b>🔴 ASYNC ERROR</b><br><br>" +
 
-            /* =====================================
-               SUCCESS
-               ===================================== */
-
-            diagnostic.innerHTML =
-            "<b>🟢 ACCOUNT CREATED</b><br><br>" +
-            "Supabase wuxuu aqbalay account-ka.<br>" +
-            "User ID: " +
-            escapeText(data.user?.id || "Unknown");
-
-
-            showMessage(
-                "✅ <b>ACCOUNT-KA WAA LA SAMEEYAY!</b><br><br>" +
-                "Waxaad hadda ku noqon kartaa Login.",
-                "success"
-            );
-
-
-            button.innerText="ACCOUNT CREATED ✓";
-
-
-        }catch(error){
-
-            diagnostic.innerHTML =
-            "<b>🔴 REQUEST ERROR</b><br><br>" +
             "<b>Qalad:</b><br>" +
-            escapeText(error.message) +
-            "<br><br>" +
-            "<b>Stack:</b><br>" +
-            escapeText(error.stack || "No stack information");
 
-
-            showMessage(
-                "❌ Qalad ayaa dhacay. Eeg qaybta <b>SYSTEM DIAGNOSTIC</b>.",
-                "error"
+            escapeText(
+                String(reason)
             );
-
-
-            button.disabled=false;
-            button.innerText="CREATE ACCOUNT";
 
         }
 
-    };
-
-
-}
-
-
-/* ================================================
-   MESSAGE FUNCTION
-   ================================================ */
-
-function showMessage(text,type){
-
-    const message =
-    document.getElementById("message");
-
-    message.className =
-    "message " + type;
-
-    message.innerHTML=text;
-
-    message.style.display="block";
-}
-
-
-}catch(error){
-
-    const diagnostic =
-    document.getElementById("diagnostic");
-
-    diagnostic.innerHTML =
-    "<b>🔴 PROGRAM ERROR</b><br><br>" +
-
-    "<b>Qalad:</b><br>" +
-    escapeText(error.message) +
-
-    "<br><br>" +
-
-    "<b>Line-ka:</b> Waxaa la qabtay qalad intii program-ku bilaabanayay." +
-
-    "<br><br>" +
-
-    "<b>Stack:</b><br>" +
-    escapeText(error.stack || "No stack information");
-
-}
+    }
+);
 
 </script>
 
 </body>
-</html>  
+</html>
