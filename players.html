@@ -777,6 +777,36 @@ function(event){
 ========================================== */
 
 loadPlayers();
+// Shaqadan waxay hubinaysaa qofka soo galay si loogu qariyo ama loogu tuso badanka
+async function handleAdminControls() {
+  // 1. Soo qaad xogta isticmaalaha hadda ku jira website-ka
+  const { data: { user }, error } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    // Haddii uusan qofku soo gelin, u weeci bogga login-ka
+    window.location.href = "login.html";
+    return;
+  }
+
+  // 2. Hel badanka "+ ADD PLAYER" adigoo isticmaalaya ID-giisa ama Class-kiisa HTML-ka
+  // (Fadlan hubi in badankaaga HTML uu leeyahay id="add-player-btn" ama wax la mid ah)
+  const addPlayerButton = document.getElementById("add-player-btn");
+
+  if (addPlayerButton) {
+    // 3. Haddii email-ka qofka soo galay uu yahay kan Admin-ka, tusi badanka
+    if (user.email === "carabay16@gmail.com") {
+      addPlayerButton.style.display = "block"; // Ama "inline-block"
+      console.log("Ku soo dhawaada Admin-ka Xamaas Team!");
+    } else {
+      // Haddii uu yahay ciyaartoy caadi ah, si buuxda u qari badanka
+      addPlayerButton.style.display = "none";
+      console.log("Waxaad ku soo gashay ciyaartoy caadi ah.");
+    }
+  }
+}
+
+// U yeer shaqadan isla marka uu boggu kaco
+handleAdminControls();
 
 </script>
 
