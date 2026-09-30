@@ -4,17 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xamaas Team - Players</title>
-    <!-- Ku dar koodhkaaga CSS-ka halkan (Haddii uu jiro fayl dibadda ah ama <style>) -->
+    <!-- Soo qaado Supabase Library-ga rasmiga ah -->
+    <script src="https://jsdelivr.net"></script>
+    
     <style>
+        /* Naqshadda CSS-ka guud ee bogga */
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .add-button { background-color: #28a745; color: white; border: none; padding: 10px 20px; cursor: pointer; display: none; } /* Marka hore waa qarsan yahay */
+        .container { max-width: 800px; margin: 0 auto; }
+        
+        /* Badanka add-button marka hore waa qarsan yahay ilaa la xaqiijiyo Admin-ka */
+        .add-button { 
+            background-color: #28a745; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            display: none; 
+            font-size: 16px;
+            border-radius: 5px;
+        } 
+        
         .players-list { margin-top: 20px; display: grid; gap: 10px; }
         .player-card { background: white; padding: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
+        /* Naqshadda Modal-ka (Pop-up Box) */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-        .modal-box { background: white; width: 300px; margin: 100px auto; padding: 20px; border-radius: 5px; }
+        .modal-box { background: white; width: 320px; margin: 150px auto; padding: 20px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .form-group { margin-bottom: 15px; }
+        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; }
+        .modal-buttons button { padding: 8px 15px; margin-right: 5px; cursor: pointer; }
     </style>
-    <!-- Soo qaado Supabase Library -->
-    <script src="https://jsdelivr.net"></script>
 </head>
 <body>
 
@@ -22,7 +41,7 @@
         <h1>Xamaas Team Dashboard</h1>
         
         <div>
-            <!-- Badanka oo leh class="add-button" sidii sawirkaaga ku jirtay -->
+            <!-- Badankan wuxuu leeyahay class="add-button" iyo onclick sidii koodhkaagii hore -->
             <button class="add-button" onclick="openAddPlayer()">+ ADD PLAYER</button>
         </div>
 
@@ -32,7 +51,7 @@
         </div>
     </div>
 
-    <!-- Modal-ka ku darista ciyaartoyda -->
+    <!-- Modal Box-ka ku darista ciyaartoyda -->
     <div id="playerModal" class="modal">
         <div class="modal-box">
             <h2>+ Add Player</h2>
@@ -40,24 +59,29 @@
                 <label>Magaca ciyaaryahanka</label>
                 <input type="text" id="playerName" placeholder="Magaca oo buuxa">
             </div>
-            <br>
-            <button onclick="savePlayer()">Save</button>
-            <button onclick="closeAddPlayer()">Close</button>
+            <div class="modal-buttons">
+                <button onclick="savePlayer()" style="background-color: #28a745; color: white; border: none;">Save</button>
+                <button onclick="closeAddPlayer()">Close</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // 1. DIIWAANGELINTA SUPABASE (Configuration)
-        // KU BEDDEL URL-KAAGA IYO KEY-GAAGA SAXDA AH EE SUPABASE
-        const SUPABASE_URL = https://iihtxtuilegjslmrkjnp.supabase.co/rest/v1/
-        const SUPABASE_ANON_KEY = sb_publishable_lh68Dlz5pKO1lZx5WDS7jA_ODfNaw8W
+        // =======================================================
+        // 1. SUPABASE CONFIGURATION (FUREYAASHA OO DHAMMAYSTIRAN)
+        // =======================================================
+        const SUPABASE_URL = "https://iihtxtuilegjslmrkjnp.supabase.co"; 
+        const SUPABASE_ANON_KEY = "sb_publishable_lh68Dlz5pKO1lZx5WDS7jA_ODfNaw8W"; 
+
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // 2. AMNIGA BOGGA IYO MAAMULKA ADMIN-KA
+        // =======================================================
+        // 2. ILLALINTA BOGGA IYO QARINTA BADANKA ADMIN-KA
+        // =======================================================
         async function handleAdminControls() {
             const { data: { user }, error } = await supabase.auth.getUser();
 
-            // Haddii isticmaaluhu uusan soo gelin, u celiy bogga login.html
+            // Haddii isticmaaluhu uusan Login ahayn, u weeci bogga login.html
             if (error || !user) {
                 window.location.href = "login.html";
                 return;
@@ -65,25 +89,28 @@
 
             console.log("Waxaad ku soo gashay email-ka:", user.email);
 
-            // Hel badanka adigoo isticmaalaya class="add-button"
+            // Hel badanka adigoo adeegsanaya Class selector (".add-button")
             const addPlayerButton = document.querySelector(".add-button");
 
             if (addPlayerButton) {
-                // Admin-ka oo keliya ayaa loo muujinayaa badanka
+                // Haddii qofka soo galay uu yahay Admin-ka rasmiga ah, u muuji badanka
                 if (user.email === "carabay16@gmail.com") {
                     addPlayerButton.style.display = "block";
                     console.log("Ku soo dhawaada Admin-ka rasmiga ah!");
                 } else {
+                    // Haddii uu yahay ciyaartoy caadi ah, si buuxda u qari badanka
                     addPlayerButton.style.display = "none";
-                    console.log("Waxaad tahay ciyaartoy caadi ah. Badanka waa lagaa qariyey.");
+                    console.log("Waxaad tahay isticmaale caadi ah. Badanka waa lagaa qariyey.");
                 }
             }
 
-            // Marka amniga la xaqiijiyo, soo aqri ciyaartoyda ku jira database-ka
+            // Marka amniga la xaqiijiyo, soo aqri ciyaartoyda ku jirtay database-ka
             loadPlayers();
         }
 
-        // 3. SOO AQRISKA CIYAARTOYDA (Fetch Data)
+        // =======================================================
+        // 3. SOO AQRISKA XOGTA CIYAARTOYDA (FETCH DATA)
+        // =======================================================
         async function loadPlayers() {
             const { data: players, error } = await supabase
                 .from('players')
@@ -97,14 +124,14 @@
             const playersList = document.getElementById("playersList");
             const playerCount = document.getElementById("playerCount");
             
-            // Cusboonaysii tirada guud ee ciyaartoyda
+            // Cusboonaysii tirada guud ee ciyaartoyda shaashadda ka muuqata
             playerCount.innerText = players.length;
             playersList.innerHTML = "";
 
-            // Haddii ay xog jirto, u soo bandhig qaab kaarar ah
             if (players.length === 0) {
                 playersList.innerHTML = "<p>Wax ciyaartoy ah weli kuma jiraan database-ka.</p>";
             } else {
+                // Mid mid u soo saar magacyada ciyaartoyda guud
                 players.forEach(player => {
                     const card = document.createElement("div");
                     card.className = "player-card";
@@ -114,7 +141,9 @@
             }
         }
 
-        // 4. KU DARISTA CIYAARTOY CUSUB (Admin Only)
+        // =======================================================
+        // 4. KU DARISTA CIYAARTOY CUSUB (ADMIN ONLY)
+        // =======================================================
         async function savePlayer() {
             const nameInput = document.getElementById("playerName").value;
             if (!nameInput) {
@@ -127,17 +156,19 @@
                 .insert([{ player_name: nameInput }]);
 
             if (error) {
-                alert("Qalad: Database-ku wuxuu kuu diiday inaad xog ku darto mar haddii aadan Admin ahayn!");
+                alert("Database-ka ayaa kuu diiday inaad xog ku darto mar haddii aadan Admin ahayn!");
                 console.error(error.message);
             } else {
                 alert("Ciyaartoyga si guul leh ayaa loo kaydiyey!");
                 document.getElementById("playerName").value = "";
                 closeAddPlayer();
-                loadPlayers(); // Dib u cusboonaysii liiska shaashadda
+                loadPlayers(); // Dib u cusboonaysii liiska shaashadda mar kale
             }
         }
 
-        // 5. MAAMULKA MODAL-KA
+        // =======================================================
+        // 5. MAAMULKA MODAL-KA (POP-UP BOX)
+        // =======================================================
         function openAddPlayer() {
             document.getElementById("playerModal").style.display = "block";
         }
@@ -145,7 +176,15 @@
             document.getElementById("playerModal").style.display = "none";
         }
 
-        // U yeer shaqada amniga isla marka uu boggu furmo
+        // CLOSE MODAL OUTSIDE (Xir modal-ka haddii bannaanka laga gujiyo)
+        window.onclick = function(event) {
+            const modal = document.getElementById("playerModal");
+            if (event.target === modal) {
+                closeAddPlayer();
+            }
+        };
+
+        // U yeer shaqada amniga iyo xaqiijinta isla marka uu boggu furmo
         handleAdminControls();
     </script>
 </body>
